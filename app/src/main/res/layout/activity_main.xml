@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.a51425.mainuiframe.ui.activity.MainActivity">
+
+    <com.example.a51425.mainuiframe.ui.view.ViewPagerMain
+        android:id="@+id/viewpager_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+    <LinearLayout
+        android:id="@+id/main_bottom_root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y96"
+        android:background="#fff"
+        >
+        <LinearLayout
+            android:id="@+id/home_root"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/iv_home"
+                    style="@style/bottom_iv"
+                    android:background="@drawable/home_selector"
+                    />
+                <TextView
+                    android:id="@+id/tv_home"
+                    style="@style/main_tv"
+                    android:text="晒e晒"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rb_message"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/iv_message"
+                style="@style/bottom_iv"
+                android:background="@drawable/message_selector" />
+            <TextView
+                android:id="@+id/tv_message"
+                style="@style/main_tv"
+                android:text="消息"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rb_service"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+
+            >
+
+            <ImageView
+                style="@style/bottom_iv"
+                android:background="@drawable/service_selector"
+                android:id="@+id/iv_service" />
+
+            <TextView
+                android:id="@+id/tv_service"
+                style="@style/main_tv"
+                android:text="服务"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rb_find"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/iv_find"
+                style="@style/bottom_iv"
+                android:background="@drawable/find_selector" />
+            <TextView
+                android:id="@+id/tv_find"
+                style="@style/main_tv"
+                android:text="发现"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/rb_my"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/iv_mine"
+                style="@style/bottom_iv"
+                android:background="@drawable/mine_selector" />
+            <TextView
+                android:id="@+id/tv_mine"
+                style="@style/main_tv"
+                android:text="我的"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

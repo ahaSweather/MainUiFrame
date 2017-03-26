@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.a51425.mainuiframe.ui.view.StateLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/failView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_error_page"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载失败，点击重试"
+            android:textSize="@dimen/x16"
+            android:layout_margin="@dimen/x6"
+            android:textColor="#666666"
+            android:background="@drawable/btn_normal"
+            android:padding="@dimen/x6"
+            android:id="@+id/textView" />
+
+    </LinearLayout>
+    
+    <ImageView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+       />
+
+    <ProgressBar
+        android:background="@drawable/loading_pb_bg"
+        android:id="@+id/loadingView"
+        android:indeterminateDrawable="@drawable/two_progress"
+        android:layout_width="@dimen/x160"
+        android:layout_height="@dimen/x160"
+        android:padding="@dimen/x50"
+        android:layout_gravity="center"/>
+
+</com.example.a51425.mainuiframe.ui.view.StateLayout>
