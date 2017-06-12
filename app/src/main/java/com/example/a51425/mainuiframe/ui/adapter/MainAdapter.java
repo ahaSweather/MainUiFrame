@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-/**
- * Created by 51425 on 2017/3/25.
- */
+
 public class MainAdapter extends FragmentPagerAdapter {
     List<Fragment> datas;
 

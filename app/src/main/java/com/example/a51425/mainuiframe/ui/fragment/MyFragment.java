@@ -11,9 +11,7 @@ import com.example.a51425.mainuiframe.utils.LogUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by 51425 on 2017/3/25.
- */
+
 public class MyFragment extends MyBaseFragment {
     @BindView(R.id.tv_show)
     TextView mTvShow;
@@ -38,7 +36,7 @@ public class MyFragment extends MyBaseFragment {
 
     @Override
     public View getContentView() {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment, null);
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.fragment, null);
 
         return view;
     }

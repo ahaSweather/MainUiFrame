@@ -7,9 +7,7 @@ import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.base.MyBaseFragment;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 
-/**
- * Created by 51425 on 2017/3/25.
- */
+
 public class MessageFragment extends MyBaseFragment {
 
 
@@ -31,6 +29,6 @@ public class MessageFragment extends MyBaseFragment {
 
     @Override
     public View getContentView() {
-        return LayoutInflater.from(context).inflate(R.layout.fragment,null);
+        return LayoutInflater.from(mActivity).inflate(R.layout.fragment,null);
     }
 }

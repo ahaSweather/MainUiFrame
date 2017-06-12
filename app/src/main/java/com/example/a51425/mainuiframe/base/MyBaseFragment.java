@@ -1,5 +1,6 @@
 package com.example.a51425.mainuiframe.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,23 +19,34 @@ import butterknife.Unbinder;
  */
 public abstract class MyBaseFragment extends Fragment {
 
-    protected Context context;
+    protected Activity mActivity;
     protected StateLayout stateLayout;
     protected boolean isFirst = true;
     protected boolean isPrepared;
     private Unbinder mUnbinder;
 
 
+    //获得可靠的上下文
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
+    }
+
+    public Activity getmActivity() {
+        return mActivity;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        context = getActivity();
+
         //防止Fragment重复加载
         if (stateLayout == null) {
             // 说明这个Fragemnt的onCreateView方法是第一次执行
             View view = getContentView();
             mUnbinder = ButterKnife.bind(this, view);
             //对Fragment展示的布局进一步封装
-            stateLayout = StateLayout.newInstance(context, view);
+            stateLayout = StateLayout.newInstance(mActivity, view);
             initView();
             initListener();
             //

@@ -30,46 +30,27 @@ public class APP extends Application {
         return application;
     }
 
-    public static void addActivity(Activity activity) {
-        if (!activities.contains(activity)){
-            activities.add(activity);
-        }
-    }
-
-    public static void rmoveActivity(Activity activity){
-        activities.remove(activity);
-    }
-
-    public static void exit() {
-        for (Activity item : activities) {
-            item.finish();
-        }
-        System.exit(0);
-    }
-
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (initLeakCanary()) return;
-        context=this;
+        context = this;
         int width = MeasureUtil.getWidth(APP.getContext());
         int height = MeasureUtil.getHeight(APP.getContext());
         LogUtil.e("手机的宽——————————"+width);
         LogUtil.e("手机的高——————————"+height);
 
 
-
+       initLeakCanary();
     }
 
-    private boolean initLeakCanary() {
+    private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return true;
-        }
-        LeakCanary.install(this);
-        return false;
+			// This process is dedicated to LeakCanary for heap analysis.
+			// You should not init your app in this process.
+			return;
+		}
+		LeakCanary.install(this);
     }
 
 

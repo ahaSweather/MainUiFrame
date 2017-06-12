@@ -22,11 +22,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="加载失败，点击重试"
-            android:textSize="@dimen/x16"
-            android:layout_margin="@dimen/x6"
+            android:textSize="@dimen/dp_8"
+            android:layout_margin="@dimen/dp_3"
             android:textColor="#666666"
             android:background="@drawable/btn_normal"
-            android:padding="@dimen/x6"
+            android:padding="@dimen/dp_3"
             android:id="@+id/textView" />
 
     </LinearLayout>
@@ -42,9 +42,9 @@
         android:background="@drawable/loading_pb_bg"
         android:id="@+id/loadingView"
         android:indeterminateDrawable="@drawable/two_progress"
-        android:layout_width="@dimen/x160"
-        android:layout_height="@dimen/x160"
-        android:padding="@dimen/x50"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:padding="@dimen/dp_25"
         android:layout_gravity="center"/>
 
 </com.example.a51425.mainuiframe.ui.view.StateLayout>

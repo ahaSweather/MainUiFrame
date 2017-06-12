@@ -17,7 +17,7 @@
     <LinearLayout
         android:id="@+id/main_bottom_root"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y96"
+        android:layout_height="@dimen/dp_48"
         android:background="#fff"
         >
         <LinearLayout
@@ -42,7 +42,7 @@
                 <TextView
                     android:id="@+id/tv_home"
                     style="@style/main_tv"
-                    android:text="晒e晒"
+                    android:text="分享"
                     />
             </LinearLayout>
 

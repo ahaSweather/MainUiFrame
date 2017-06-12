@@ -2,6 +2,7 @@ package com.example.a51425.mainuiframe.ui.activity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.a51425.mainuiframe.ui.fragment.MyFragment;
 import com.example.a51425.mainuiframe.ui.fragment.ServiceFragment;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.ui.view.ViewPagerMain;
+import com.example.a51425.mainuiframe.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.main_bottom_root)
     LinearLayout mMainBottomRoot;
     private List<Fragment> fragments;
+    private long mExitTime = 0L;
 
     @Override
     protected View getContentView() {
@@ -141,5 +144,26 @@ public class MainActivity extends BaseActivity {
                 setEnable(((ViewGroup) childAt).getChildAt(i),b);
             }
         }
+    }
+
+
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            LogUtil.e("监听 后退键");
+            if (System.currentTimeMillis() - mExitTime < 2000) {
+                moveTaskToBack(true);
+                LogUtil.e("返回————");
+                return true;
+            }
+            LogUtil.e("不返回————");
+            mExitTime = System.currentTimeMillis();
+
+            ToastUtil.showToast(MainActivity.this, "再按一次退出程序");
+            return true;
+        }
+        return super.onKeyUp(keyCode, event);
     }
 }

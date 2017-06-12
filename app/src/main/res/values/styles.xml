@@ -9,17 +9,17 @@
     </style>
 
     <style name="bottom_iv">
-        <item name="android:layout_width">@dimen/x44</item>
-        <item name="android:layout_height">@dimen/x46</item>
+        <item name="android:layout_width">@dimen/dp_22</item>
+        <item name="android:layout_height">@dimen/dp_23</item>
         <item name="android:scaleType">fitXY</item>
     </style>
 
     <style name="main_tv">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/y20</item>
+        <item name="android:textSize">@dimen/dp_10</item>
         <item name="android:textColor">@drawable/text_selector</item>
-        <item name="android:layout_marginTop">@dimen/y7</item>
+        <item name="android:layout_marginTop">@dimen/dp_3</item>
 
     </style>
 

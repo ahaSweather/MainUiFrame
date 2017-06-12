@@ -5,8 +5,9 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
+
 /**
- * Created by 51425 on 2017/3/26.
+ * 通过 setIsScroll() 方法来控制viewPager是否能够进行滑动
  */
 public class ViewPagerMain  extends ViewPager{
     private boolean mIsScroll=true;

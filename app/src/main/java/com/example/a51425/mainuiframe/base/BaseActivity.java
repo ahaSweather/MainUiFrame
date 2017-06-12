@@ -1,12 +1,16 @@
 package com.example.a51425.mainuiframe.base;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.a51425.mainuiframe.APP;
+import com.example.a51425.mainuiframe.AppManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -19,7 +23,16 @@ import butterknife.Unbinder;
 public abstract class BaseActivity extends AppCompatActivity {
 
 
-    protected Handler mUiHandler;
+    protected Handler mUiHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            dealWith(msg);
+        }
+    };
+
+
+
     protected View view;
     private Unbinder mUnbinder;
     protected boolean isFirst=true;
@@ -28,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        APP.getInstance().addActivity(this);
+        AppManager.getAppManager().addActivity(this);
         view = getContentView();
         setContentView(view);
         //butterknife绑定
@@ -65,13 +78,48 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mUiHandler!=null){
             mUiHandler.removeCallbacksAndMessages(null);
         }
-        //Activity结束时接触butterknife的绑定
+        //Activity结束时解除butterknife的绑定
         if (mUnbinder!=null){
             mUnbinder.unbind();
         }
-        APP.rmoveActivity(this);
+        AppManager.getAppManager().removeStack(this);
+
 
     }
+
+    /**
+     * Activity跳转
+     *
+     * @param context
+     * @param targetActivity
+     * @param bundle
+     */
+    public void jumpToActivity(Context context, Class<?> targetActivity,
+                               Bundle bundle) {
+        Intent intent = new Intent(context, targetActivity);
+        if (null != bundle) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * startActivityForResult
+     *
+     * @param context
+     * @param targetActivity
+     * @param requestCode
+     * @param bundle
+     */
+    public void jumpToActivityForResult(Context context,
+                                        Class<?> targetActivity, int requestCode, Bundle bundle) {
+        Intent intent = new Intent(context, targetActivity);
+        if (null != bundle) {
+            intent.putExtras(bundle);
+        }
+        startActivityForResult(intent, requestCode);
+    }
+
 
     /**
      * 必须实现，返回想要展示的view
@@ -98,7 +146,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 处理handler逻辑，
+     * @param msg
+     */
+    protected void dealWith(Message msg) {
 
-
+    }
 
 }
