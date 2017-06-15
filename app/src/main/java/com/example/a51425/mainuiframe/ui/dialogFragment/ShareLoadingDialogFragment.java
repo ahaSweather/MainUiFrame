@@ -26,7 +26,6 @@ public class ShareLoadingDialogFragment extends MyDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-//        View.inflate()
         Dialog dialog = MyCreateDialog();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.share_loding);
@@ -58,14 +57,7 @@ public class ShareLoadingDialogFragment extends MyDialogFragment {
         mTVShow.setText(showText);
     }
 
-    public void showDialog() {
-//        if (getUserVisibleHint()){
-//            return;
-//        }else{
-//            show(getFragmentManager(),"shareLoadingDialog");
-//        }
-//        show(getFragmentManager(),"shareLoadingDialog");
-    }
+
 
 
 }

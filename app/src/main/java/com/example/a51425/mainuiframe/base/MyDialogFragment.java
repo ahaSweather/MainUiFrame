@@ -44,6 +44,7 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        // 让dialogFragment全屏显示
 //        getDialog().getWindow().setBackgroundDrawable( new ColorDrawable(Color.WHITE) );
 ////        getDialog().getWindow().getAttributes().windowAnimations = R.style.dialogAnim;
 //        Dialog dialog = getDialog();
@@ -72,76 +73,34 @@ public class MyDialogFragment extends DialogFragment {
 
     }
 
-    /**
-     * 弹出Dialog
-     * @param fragmentManager
-     * @param redDialog
-     */
-    public void showDialog(FragmentManager fragmentManager, String redDialog) {
-        try{
-            if (!this.isAdded()
-
-                    && !this.isVisible()
-
-                    && !this.isRemoving()) {
-                this.show(fragmentManager.beginTransaction(), redDialog);
-//            this.showDialog(getFragmentManager(), "redDialog");
-            }
-        }catch (Exception e){
-            LogUtil.e(Log.getStackTraceString(e));
-            return;
-        }
-
-    }
 
     /**
-     * 弹出Dialog
+     * 弹出Dialog dialogFragmnet 的show 和 hide 最好按照下面的来写，已经踩了不少坑了
      * @param activity
      * @param redDialog
      */
     public void showDialog(FragmentActivity activity, String redDialog) {
-
-        if(this.isAdded()) {
-            LogUtil.e("之前被添加过");
-//            (activity).getSupportFragmentManager().beginTransaction().remove(this).commit();
-            return;
-        }
         if (activity==null){
-            LogUtil.e("依赖的activity为null");
             return;
         }
         if (activity.isFinishing()){
-            LogUtil.e("依赖的activity为被干掉");
+            return;
+        }
+        if(this.isAdded()) {
             return;
         }
         if (this==null){
-            LogUtil.e("找不到dialog");
             return;
         }
         if (this.isVisible()){
-            LogUtil.e("dialog 正在显示");
             return;
         }
-        LogUtil.e("开始正式的提交");
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(this, redDialog);
         transaction.commitAllowingStateLoss();
-//        transaction.show(this);
-
-//        if(null != activity && !activity.isFinishing() && (null == getDialog() || !getDialog().isShowing())) {
-//            FragmentManager fragmentManager = activity.getSupportFragmentManager();
-//            FragmentTransaction transaction = fragmentManager.beginTransaction();
-//            transaction.add(this, redDialog);
-//            transaction.commitAllowingStateLoss();
-//            transaction.show(this);
-//        }
-
     }
     public void dismissDialog(Activity activity){
-//        if (null != activity && !activity.isFinishing() && null != getDialog() && getDialog().isShowing()) {
-//            super.dismissAllowingStateLoss();
-//        }
         if (activity==null){
             return;
         }
@@ -149,10 +108,7 @@ public class MyDialogFragment extends DialogFragment {
             return;
         }
         if (!this.isVisible()){
-            LogUtil.e("取消dialogFragment");
             super.dismissAllowingStateLoss();
-        }else{
-            LogUtil.e("dialogFragment没有显示");
         }
     }
 
@@ -166,10 +122,8 @@ public class MyDialogFragment extends DialogFragment {
         Activity activity = activityWeakReference.get();
         if (activity != null) {
             dialog = new Dialog(activity);
-
         } else {
             dialog = new Dialog(getMyActivity());
-
         }
         return dialog;
     }

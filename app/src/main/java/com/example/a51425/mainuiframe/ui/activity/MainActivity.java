@@ -1,11 +1,16 @@
 package com.example.a51425.mainuiframe.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.example.a51425.mainuiframe.R;
@@ -15,7 +20,7 @@ import com.example.a51425.mainuiframe.ui.fragment.FindFragment;
 import com.example.a51425.mainuiframe.ui.fragment.HomeFragment;
 import com.example.a51425.mainuiframe.ui.fragment.MessageFragment;
 import com.example.a51425.mainuiframe.ui.fragment.MyFragment;
-import com.example.a51425.mainuiframe.ui.fragment.ServiceFragment;
+import com.example.a51425.mainuiframe.ui.fragment.ShareFragment;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.ui.view.ViewPagerMain;
 import com.example.a51425.mainuiframe.utils.ToastUtil;
@@ -35,9 +40,14 @@ public class MainActivity extends BaseActivity {
     private List<Fragment> fragments;
     private long mExitTime = 0L;
 
+
+
     @Override
     protected View getContentView() {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
+        //不加入侧滑
+        showSlidr = false;
+        hideStatusBar = true;
         return view;
     }
 
@@ -82,9 +92,9 @@ public class MainActivity extends BaseActivity {
      */
     private void initViewPager() {
         fragments = new ArrayList<>();
-        fragments.add(new HomeFragment());
+        fragments.add(new ShareFragment());
         fragments.add(new MessageFragment());
-        fragments.add(new ServiceFragment());
+        fragments.add(new HomeFragment());
         fragments.add(new FindFragment());
         fragments.add(new MyFragment());
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), fragments);
@@ -152,15 +162,11 @@ public class MainActivity extends BaseActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            LogUtil.e("监听 后退键");
             if (System.currentTimeMillis() - mExitTime < 2000) {
                 moveTaskToBack(true);
-                LogUtil.e("返回————");
                 return true;
             }
-            LogUtil.e("不返回————");
             mExitTime = System.currentTimeMillis();
-
             ToastUtil.showToast(MainActivity.this, "再按一次退出程序");
             return true;
         }

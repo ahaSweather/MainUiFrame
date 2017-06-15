@@ -2,12 +2,16 @@ package com.example.a51425.mainuiframe.ui.view;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.a51425.mainuiframe.R;
+import com.example.a51425.mainuiframe.utils.LogUtil;
 
 
 /**
@@ -16,12 +20,14 @@ import com.example.a51425.mainuiframe.R;
  * @author wr
  *
  */
-public class StateLayout extends FrameLayout {
+public class StateLayout extends RelativeLayout {
 
 	private View loadingView;
 	private View failView;
 	private View emptyView;
 	private View contentView;
+	private boolean isShow;
+
 
 	public StateLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -35,7 +41,8 @@ public class StateLayout extends FrameLayout {
 		StateLayout stateLayout = (StateLayout) LayoutInflater.from(context).inflate(R.layout.state_layout, null);
 		stateLayout.contentView=contentView;
 		// StateLayout inflate之后就有3个状态的View了，还需要第四种状态
-		stateLayout.addView(contentView);
+		FrameLayout view = (FrameLayout) stateLayout.findViewById(R.id.fl_layout_root);
+		view.addView(contentView);
 		//当添加完成后暂时给隐藏掉
 		contentView.setVisibility(View.GONE);
 		return stateLayout;
@@ -81,9 +88,40 @@ public class StateLayout extends FrameLayout {
 	 */
 	private void showView(View view) {
 
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);	//
+		//获取包含布局的frameLayout
+		FrameLayout childAt = (FrameLayout) getChildAt(1);
+		for (int i = 0; i <childAt.getChildCount(); i++) {
+			View child = childAt.getChildAt(i);	//
 			child.setVisibility(view == child ? View.VISIBLE : View.GONE);
+
+		}
+	}
+
+
+	/**
+	 * 获取状态栏的高度
+	 * @return
+	 */
+	public int getStatusBarHeight() {
+		int result = 0;
+		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			result = getResources().getDimensionPixelSize(resourceId);
+		}
+		return result;
+	}
+
+	public void showStatusBar(boolean isShow,int showColor ){
+		//增加自定义的StatusBar
+		this.isShow = isShow;
+		if (isShow){
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+				LinearLayout statusBar = (LinearLayout) getChildAt(0);
+				statusBar.getLayoutParams().height = getStatusBarHeight();
+				statusBar.setBackgroundColor(showColor);
+				statusBar.requestLayout();
+
+			}
 		}
 	}
 	

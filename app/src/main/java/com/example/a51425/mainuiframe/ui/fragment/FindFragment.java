@@ -1,7 +1,9 @@
 package com.example.a51425.mainuiframe.ui.fragment;
 
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.a51425.mainuiframe.R;
@@ -15,11 +17,14 @@ import butterknife.ButterKnife;
 public class FindFragment extends MyBaseFragment {
     @BindView(R.id.tv_show)
     TextView mTvShow;
-
+    @BindView(R.id.ll_status_height)
+    LinearLayout mStatusHeight;
 
 
     @Override
     public void initView() {
+
+        stateLayout.showStatusBar(true,getResources().getColor(R.color.colorPrimary));
 
     }
 

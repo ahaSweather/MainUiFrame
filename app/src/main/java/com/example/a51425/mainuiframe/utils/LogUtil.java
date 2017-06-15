@@ -19,7 +19,7 @@ import java.util.Locale;
  * Log
  */
 public class LogUtil {
-    public static String customTagPrefix = "";  // 自定义Tag的前缀，可以是作者名
+    public static String customTagPrefix = "wr";  // 自定义Tag的前缀，可以是作者名
     public static boolean isSaveLog = false;    // 是否把保存日志到SD卡中
     public static final String LOG_PATH = Environment.getExternalStorageDirectory().getPath(); // SD卡中的根目录
 

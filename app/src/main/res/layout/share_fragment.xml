@@ -8,19 +8,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         ></LinearLayout>
-    <TextView
-        android:id="@+id/tv_show"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="你妈妈喊你回家吃饭了！"
-        android:layout_gravity="center"
-        android:textColor="#000"
-        />
+
     <Button
         android:id="@+id/btn_shareWX1"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="30dp"
         android:text="分享到微信好友（通过修改微信sdk，绕过微信审核进行分享）"
         android:textColor="#000"
         android:background="#50aade"

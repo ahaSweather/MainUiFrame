@@ -2,12 +2,15 @@ package com.example.a51425.mainuiframe.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
+import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.ui.view.StateLayout;
 
@@ -24,6 +27,7 @@ public abstract class MyBaseFragment extends Fragment {
     protected boolean isFirst = true;
     protected boolean isPrepared;
     private Unbinder mUnbinder;
+    private boolean isShow;
 
 
     //获得可靠的上下文
@@ -59,6 +63,8 @@ public abstract class MyBaseFragment extends Fragment {
         }
         return stateLayout;
     }
+
+
 
 
     /**
@@ -154,7 +160,7 @@ public abstract class MyBaseFragment extends Fragment {
     public abstract void initListener();
 
     /**
-     * 初始化数据的代码写在这个方法中
+     * 初始化数据的代码写在这个方法中，这个方法才是加载数据的方法，onVisible 内做了判断，保证 initData() 方法只执行了一次
      */
     public abstract void initData();
 
@@ -162,4 +168,11 @@ public abstract class MyBaseFragment extends Fragment {
      * 返回正常的界面想要展示的View或View的Id
      */
     public abstract View getContentView();
+
+
+
+
+
+
+
 }

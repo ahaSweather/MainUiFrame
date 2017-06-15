@@ -1,27 +1,12 @@
 package com.example.a51425.mainuiframe.ui.presenter;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
-import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.base.BasePresenter;
-import com.example.a51425.mainuiframe.ui.dialogFragment.ShareLoadingDialogFragment;
+import com.example.a51425.mainuiframe.bean.HomeFragmentBean;
 import com.example.a51425.mainuiframe.ui.fragment.HomeFragment;
 import com.example.a51425.mainuiframe.ui.fragment.IView.IHomeFragmentView;
-import com.example.a51425.mainuiframe.utils.AppUtils;
-import com.example.a51425.mainuiframe.utils.LogUtil;
-import com.example.a51425.mainuiframe.utils.ShareUtils;
-import com.example.a51425.mainuiframe.utils.StringUtils;
-import com.example.a51425.mainuiframe.utils.ToastUtil;
 
-import java.lang.ref.WeakReference;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 51425 on 2017/6/12.
@@ -38,94 +23,36 @@ public class HomeFragmentPresenter extends BasePresenter {
         this.mHomeFragment = homeFragment;
         this.mIHomeFragmentView = homeFragment;
     }
-    /**
-     *  通过intent 分享内容给微信好友
-     * @param content  分享描述
-     */
-    public void throughIntentShareWXFriends(String content,int type){
-        if (!AppUtils.checkApkExist(mHomeFragment.getmActivity(), "com.tencent.mm")) {
-            ToastUtil.showToast(mHomeFragment.getmActivity(), "亲，你还没安装微信");
-            return;
-        }
-        if (content == null || "".equals(content)){
-            return;
-        }
-        if (type == 0){
-            ShareUtils.shareWXdesc(content);
-        }else if (type == 1){
-            //将图片下到本地转成uri
-//            ShareUtils.shareWXImage(uri);
-        }
 
+    public List<HomeFragmentBean> initData(){
+
+//        String loadUrl = "https://chinajianfeicha.com//apdetail/artdetail?app=1&articleid=4542";
+        List<HomeFragmentBean> data = new ArrayList<>();
+        for (int i = 0; i <5 ; i++) {
+            HomeFragmentBean homeFragmentBean = new HomeFragmentBean(HomeFragmentBean.VIEDEO);
+            String shareTitle = "呵呵"+i;
+            String shareContent = "嘿嘿"+i;
+            String shareImageUrl = "";
+            String jumpUrl = "";
+
+            if (i%2==0){
+                shareImageUrl = "http://img2.3lian.com/2014/f2/37/d/40.jpg";
+                jumpUrl = "http://blog.csdn.net/ahaSweater/article/details/73171159";
+                homeFragmentBean.setVideo(false);
+            }else{
+                shareImageUrl = "http://f.hiphotos.baidu.com/image/pic/item/09fa513d269759ee50f1971ab6fb43166c22dfba.jpg";
+                 jumpUrl = "http://www.tudou.com/l/e3XqM6nAiPU/&iid=11507091/v.swf";
+                homeFragmentBean.setVideo(true);
+            }
+
+            homeFragmentBean.setShareTitle(shareTitle);
+            homeFragmentBean.setShareContent(shareContent);
+            homeFragmentBean.setShareImageUrl(shareImageUrl);
+            homeFragmentBean.setJumpUrl(jumpUrl);
+            data.add(homeFragmentBean);
+        }
+        return data;
 
     }
 
-
-
-
-    /**
-     *  通过sdk 进行分享
-     * @param shareTiele 分享的标题
-     * @param shareContent 分享的内容
-     * @param shareImage    分享的图片
-     * @param jumpUrl       分享出去跳转的链接
-     * @param type       分享到哪里
-     */
-    public void throughSdkShareWXFriends(final Activity context, final String shareTiele, final String shareContent, final String shareImage, final String jumpUrl, final int type, final ShareLoadingDialogFragment shareLoading){
-        Observable.just(ShareUtils.shareWXReadyRx(shareImage))
-                .filter(new Func1<String[], Boolean>() {
-                    @Override
-                    public Boolean call(String[] strings) {
-                        if (strings == null) {
-                            LogUtil.e("没有任何可以分享的平台");
-                          //这里根据需求来修改，我们是如果没有任何可以而分享的平台就走intent　方式进行分享，utils中也有，这里就不细写了
-                            return false;
-                        } else {
-                            shareAppId = strings[0];
-                            shareAppPackageName = strings[1];
-                            LogUtil.e("分享的appId:::" + shareAppId + "////" + shareAppPackageName);
-                            return true;
-                        }
-                    }
-                })
-                .map(new Func1<String[], Bitmap>() {
-                    @Override
-                    public Bitmap call(String[] strings) {
-                        String sharImage = strings[2];
-                        if (StringUtils.isEmpty(shareImage)){
-                            return  BitmapFactory.decodeResource(context.getResources(), R.drawable.wx);
-                        }
-                        return ShareUtils.getRxHttpBitmap(sharImage);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Bitmap>() {
-                    @Override
-                    public void onCompleted() {
-                        if (shareLoading != null) {
-                            shareLoading.dismissDialog(context);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (shareLoading != null) {
-                            shareLoading.dismissDialog(context);
-                        }
-                        LogUtil.e("error___");
-                       //如果在分享的过程中出现错误也应该走intent 方式
-                        LogUtil.e(android.util.Log.getStackTraceString(e));
-                    }
-
-                    @Override
-                    public void onNext(Bitmap bitmap) {
-                        ShareUtils.shareWXRX(new WeakReference<Activity>(context), shareAppId, shareAppPackageName, shareTiele
-                                , shareContent, jumpUrl, type, bitmap
-                        );
-                    }
-                });
-
-
-    }
 }
