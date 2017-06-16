@@ -5,13 +5,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200"
+        android:layout_height="wrap_content"
         android:background="@drawable/white_bg"
         >
         <ImageView
             android:id="@+id/iv_video_bottom"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dp_200"
             android:scaleType="centerCrop"
             />
         <ImageView

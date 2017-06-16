@@ -23,6 +23,7 @@ import com.example.a51425.mainuiframe.ui.fragment.MyFragment;
 import com.example.a51425.mainuiframe.ui.fragment.ShareFragment;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.ui.view.ViewPagerMain;
+import com.example.a51425.mainuiframe.utils.StatusBarUtil;
 import com.example.a51425.mainuiframe.utils.ToastUtil;
 
 import java.util.ArrayList;
@@ -47,7 +48,8 @@ public class MainActivity extends BaseActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
         //不加入侧滑
         showSlidr = false;
-        hideStatusBar = true;
+        hideStatusBar = false;
+
         return view;
     }
 

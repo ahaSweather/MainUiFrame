@@ -2,19 +2,7 @@
 <com.example.a51425.mainuiframe.ui.view.StateLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <LinearLayout
-        android:id="@+id/ll_status_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        ></LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_layout_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ll_status_height"
-        >
     <LinearLayout
         android:id="@+id/failView"
         android:layout_width="wrap_content"
@@ -58,6 +46,5 @@
         android:layout_height="@dimen/dp_80"
         android:padding="@dimen/dp_25"
         android:layout_gravity="center"/>
-    </FrameLayout>
 
 </com.example.a51425.mainuiframe.ui.view.StateLayout>

@@ -15,7 +15,7 @@
         android:layout_height="80dp"
         android:text="分享到微信好友（通过修改微信sdk，绕过微信审核进行分享）"
         android:textColor="#000"
-        android:background="#50aade"
+        android:background="@color/colorPrimary"
         />
     <Button
         android:id="@+id/btn_shareWX2"
@@ -25,7 +25,7 @@
         android:layout_marginTop="30dp"
         android:text="分享到微信朋友圈（通过修改微信sdk，绕过微信审核进行分享）"
         android:textColor="#000"
-        android:background="#50aade"
+        android:background="@color/colorPrimary"
         />
 
 </LinearLayout>

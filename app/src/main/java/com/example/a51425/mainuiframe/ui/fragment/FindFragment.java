@@ -24,7 +24,7 @@ public class FindFragment extends MyBaseFragment {
     @Override
     public void initView() {
 
-        stateLayout.showStatusBar(true,getResources().getColor(R.color.colorPrimary));
+
 
     }
 

@@ -13,6 +13,7 @@ import com.example.a51425.mainuiframe.ui.fragment.IView.IShareFragmentView;
 import com.example.a51425.mainuiframe.ui.presenter.HomeFragmentPresenter;
 import com.example.a51425.mainuiframe.ui.presenter.ShareFragmentPresenter;
 import com.example.a51425.mainuiframe.utils.LogUtil;
+import com.example.a51425.mainuiframe.utils.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -25,14 +26,14 @@ public class ShareFragment extends MyBaseFragment implements IShareFragmentView 
     public LinearLayout mStatusHeight;
     private ShareFragmentPresenter mShareFragmentPresenter;
     private MainActivity mainActivity;
-    private String shareTitle = "他大舅";
-    private String shareContent = "他二舅";
+    private String shareTitle = "有问题吗？真的有问题吗？";
+    private String shareContent = "请点击查看答案";
     private String shareImageUrl = "http://f.hiphotos.baidu.com/image/pic/item/09fa513d269759ee50f1971ab6fb43166c22dfba.jpg";
     private String jumpUrl = "www.baidu.com";
 
     @Override
     public void initView() {
-        stateLayout.showStatusBar(true,getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setColor(getmActivity(),getResources().getColor(R.color.colorPrimary),0);
     }
 
     @Override

@@ -18,7 +18,7 @@ public class MessageFragment extends MyBaseFragment {
     LinearLayout mStatusHeight;
     @Override
     public void initView() {
-        stateLayout.showStatusBar(true,getResources().getColor(R.color.colorAccent));
+
     }
 
     @Override

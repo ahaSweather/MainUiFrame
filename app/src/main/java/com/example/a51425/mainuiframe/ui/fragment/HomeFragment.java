@@ -16,6 +16,7 @@ import com.example.a51425.mainuiframe.ui.activity.MainActivity;
 import com.example.a51425.mainuiframe.ui.fragment.IView.IHomeFragmentView;
 import com.example.a51425.mainuiframe.ui.presenter.HomeFragmentPresenter;
 import com.example.a51425.mainuiframe.utils.LogUtil;
+import com.example.a51425.mainuiframe.utils.StatusBarUtil;
 import com.example.a51425.mainuiframe.utils.ToastUtil;
 
 import java.util.List;

@@ -175,6 +175,7 @@ public class ShareUtils {
      *                   如果想更好的体验，就需要在这个界面加上个按钮通过点击这个按钮再返回自己的应用
      *                   这时就需要定义个scheme
      *                   目前这种方式只能分享到 qq好友，微信好友，微信朋友圈
+     *                   这里只是简单举个例子，不建议使用
      *                   这种方式我在项目中已经弃用了...
      */
     public static void throughQQBShareWxCircle(String ucShareUrl){
@@ -287,6 +288,7 @@ public class ShareUtils {
             shareBitmap.recycle();
             shareBitmap = null;
         }
+
         //拼接参数还是用原生的sdk来弄
         WXWebpageObject localWXWebpageObject = new WXWebpageObject();
         localWXWebpageObject.webpageUrl = shareUrl;
