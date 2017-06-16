@@ -78,7 +78,7 @@ public abstract class MyBaseFragment extends Fragment {
 
         if (isVisibleToUser) {
             isVisible = true;
-            LogUtil.e(getClass().getName()+"__________setUserVisibleHint");
+//            LogUtil.e(getClass().getName()+"__________setUserVisibleHint");
             onVisible();
         } else {
             isVisible = false;
@@ -98,9 +98,9 @@ public abstract class MyBaseFragment extends Fragment {
      */
     protected void onVisible() {
         //保证ViewPager能够实现懒加载的方式并保证只有第一次进入这个Fragment的时候才进行数据的加载
-        LogUtil.e("isFirst _____________" + isFirst);
-        LogUtil.e("isVisible _____________" + isVisible);
-        LogUtil.e("isPrepared _____________" + isPrepared);
+//        LogUtil.e("isFirst _____________" + isFirst);
+//        LogUtil.e("isVisible _____________" + isVisible);
+//        LogUtil.e("isPrepared _____________" + isPrepared);
         if (!isFirst || !isVisible || !isPrepared) {
             return;
         }

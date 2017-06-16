@@ -16,9 +16,8 @@ import com.example.a51425.mainuiframe.ui.activity.MainActivity;
 import com.example.a51425.mainuiframe.ui.fragment.IView.IHomeFragmentView;
 import com.example.a51425.mainuiframe.ui.presenter.HomeFragmentPresenter;
 import com.example.a51425.mainuiframe.utils.LogUtil;
-import com.example.a51425.mainuiframe.utils.StatusBarUtil;
-import com.example.a51425.mainuiframe.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,7 +34,9 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
     private LinearLayoutManager mLinearLayoutManager;
     private List shareList;
     private ShareFragmentAdapter mShareAdapter;
-    private List<HomeFragmentBean> mData;
+    private List<HomeFragmentBean> mData = new ArrayList<>();
+    private int page ;
+
 
     @Override //返回fragment需要的布局
     public View getContentView() {
@@ -58,8 +59,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 
-
-                if (mData==null){
+                if (mData.size()==0){
                     return;
                 }
                 Bundle bundle = new Bundle();
@@ -67,18 +67,29 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
                 mainActivity.jumpToActivity(mainActivity,WebViewActivity.class,bundle);
             }
         });
+
+        mShareAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                LogUtil.e("loadMore");
+                page++;
+                mHomeFragmentPresenter.initData(mData,page, mShareAdapter);
+
+            }
+        },mRecyclerView);
+
     }
 
     @Override
     public void initData() {
         LogUtil.e(getClass().getName()+"_________initData");
 //        stateLayout.showContentView();
-        mData = mHomeFragmentPresenter.initData();
-        if (mData.size()!=0){
-            stateLayout.showContentView();
-            mShareAdapter.setNewData(mData);
-
-        }
+        page = 1;
+        mHomeFragmentPresenter.initData(mData,page,mShareAdapter);
+//        if (mData.size()!=0){
+//            stateLayout.showContentView();
+//            mShareAdapter.addData(mData);
+//        }
     }
 
 
@@ -98,4 +109,23 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
     }
 
 
+    @Override
+    public void showContentView() {
+        stateLayout.showContentView();
+    }
+
+    @Override
+    public void showEmptyView() {
+        stateLayout.showEmptyView();
+    }
+
+    @Override
+    public void showLodingView() {
+        stateLayout.showLoadingView();
+    }
+
+    @Override
+    public void showFailView() {
+        stateLayout.showFailView();
+    }
 }
