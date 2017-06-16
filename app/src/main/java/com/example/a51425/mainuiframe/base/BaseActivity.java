@@ -52,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         beforeLoading();
         AppManager.getAppManager().addActivity(this);
         view = getContentView();
-        setContentView(view);
+        super.setContentView(view);
         setSlidr(showSlidr);
         setStatus(hideStatusBar);
         //butterknife绑定
@@ -68,14 +68,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     private void setStatus(boolean hideStatusBar) {
         if (hideStatusBar){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-                    this.getWindow().setStatusBarColor(Color.TRANSPARENT);
-                } else {
-                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//                    this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+//                    this.getWindow().setStatusBarColor(Color.TRANSPARENT);
+//                } else {
+//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+//                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//                }
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
             }
         }
 

@@ -31,7 +31,10 @@ public class HomeFragmentPresenter extends BasePresenter {
 
         LogUtil.e("page____"+page);
         ArrayList<HomeFragmentBean> mData = new ArrayList<>();
-        if (page <4){
+        if ( page < 4){
+            if (page == 1){
+                data.clear();
+            }
             for (int i = 0; i <6; i++) {
                 HomeFragmentBean homeFragmentBean = new HomeFragmentBean(HomeFragmentBean.VIEDEO);
                 String shareTitle = "呵呵"+i;
@@ -59,8 +62,8 @@ public class HomeFragmentPresenter extends BasePresenter {
         }
 
         if (mData.size()!=0){
-            data.addAll(mData);
-            mShareAdapter.addData(mData);
+            data.addAll(mData);//将每次请求下来的新数据添加到原先的集合中
+            mShareAdapter.addData(mData);//更新新添加的数据
             mIHomeFragmentView.showContentView();
             if (page>1){
                 mShareAdapter.loadMoreComplete();

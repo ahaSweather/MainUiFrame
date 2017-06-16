@@ -23,11 +23,13 @@ import java.util.List;
 import butterknife.BindView;
 
 
+
 public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
 
 
     @BindView(R.id.shareFragmentRecyclerview)
     public RecyclerView mRecyclerView;
+
     private HomeFragmentPresenter mHomeFragmentPresenter;
     private MainActivity mainActivity;
 
@@ -78,18 +80,16 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
             }
         },mRecyclerView);
 
-    }
 
+
+    }
     @Override
     public void initData() {
         LogUtil.e(getClass().getName()+"_________initData");
 //        stateLayout.showContentView();
         page = 1;
         mHomeFragmentPresenter.initData(mData,page,mShareAdapter);
-//        if (mData.size()!=0){
-//            stateLayout.showContentView();
-//            mShareAdapter.addData(mData);
-//        }
+
     }
 
 
@@ -105,7 +105,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mShareAdapter = new ShareFragmentAdapter(shareList);
         mRecyclerView.setAdapter(mShareAdapter);
-
+        mShareAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
     }
 
 

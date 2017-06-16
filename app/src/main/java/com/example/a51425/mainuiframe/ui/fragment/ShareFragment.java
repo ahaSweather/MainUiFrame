@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
+
 public class ShareFragment extends MyBaseFragment implements IShareFragmentView {
 
 
@@ -38,7 +39,6 @@ public class ShareFragment extends MyBaseFragment implements IShareFragmentView 
 
     @Override
     public void initListener() {
-
     }
 
     @Override
