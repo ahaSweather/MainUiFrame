@@ -9,12 +9,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.a51425.mainuiframe.APP;
 import com.example.a51425.mainuiframe.AppManager;
+import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.r0adkll.slidr.Slidr;
 
@@ -37,68 +42,47 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     };
 
-
-
     protected View view;
     private Unbinder mUnbinder;
     protected boolean isFirst=true;
     private InputMethodManager mIm;
     protected boolean showSlidr;//控制是否加入侧滑
     protected boolean hideStatusBar;
+    private TextView baseTitle;
+    private ImageView baseBack;
+    private boolean showBaseTitle = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         beforeLoading();
         AppManager.getAppManager().addActivity(this);
-        view = getContentView();
-        super.setContentView(view);
+        View inflate = null;
+        if (showBaseTitle){
+            inflate = LayoutInflater.from(this).inflate(R.layout.activity_base, null);
+        }else{
+            inflate = getContentView();
+        }
+        super.setContentView(inflate);
+        if (showBaseTitle){
+            FrameLayout baseFrame = (FrameLayout) inflate.findViewById(R.id.fr_base);
+            baseTitle = (TextView) inflate.findViewById(R.id.tv_base_title);
+            baseBack = (ImageView) inflate.findViewById(R.id.iv_base_back);
+            view = getContentView();
+            mUnbinder = ButterKnife.bind(view.getContext(), view);
+            baseFrame.addView(view);
+        }else {
+            mUnbinder = ButterKnife.bind(inflate.getContext(), inflate);
+        }
         setSlidr(showSlidr);
         setStatus(hideStatusBar);
         //butterknife绑定
-        mUnbinder = ButterKnife.bind(view.getContext(), view);
+
         initView();
         initListener();
     }
 
-    /**
-     * 设置状态栏消失
-     * @param hideStatusBar 默认 false  true看需求可以配合自定义的状态栏
-     */
-    private void setStatus(boolean hideStatusBar) {
-        if (hideStatusBar){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//                    this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//                    this.getWindow().setStatusBarColor(Color.TRANSPARENT);
-//                } else {
-//                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-//                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//                }
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-            }
-        }
-
-    }
-
-    /**
-     * 设置侧滑是否出现 默认 false  true需要配合相应的 theme
-     * @param showSlidr
-     */
-    private void setSlidr(boolean showSlidr) {
-        if (showSlidr){
-            try{
-                Slidr.attach(this);
-            }catch (Exception e){
-                LogUtil.e(Log.getStackTraceString(e));
-            }
-        }
-
-    }
 
     /**
      * 处理开始加载前的操作
@@ -208,6 +192,57 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void dealWith(Message msg) {
 
     }
+
+    /**
+     * 控制状态栏是否消失
+     * @param hideStatusBar 默认 false  true看需求可以配合自定义的状态栏
+     */
+    private void setStatus(boolean hideStatusBar) {
+        if (hideStatusBar){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    this.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+                    this.getWindow().setStatusBarColor(Color.TRANSPARENT);
+                } else {
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                            WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                }
+//                getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+//                        WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+            }
+        }
+
+    }
+
+    /**
+     * 设置侧滑是否出现 默认 false  true需要配合相应的 theme
+     * @param showSlidr
+     */
+    private void setSlidr(boolean showSlidr) {
+        if (showSlidr){
+            try{
+                Slidr.attach(this);
+            }catch (Exception e){
+                LogUtil.e(Log.getStackTraceString(e));
+            }
+        }
+
+    }
+
+    /**
+     * 控制是否显示通用的title，默认为true，显示
+     * @param baseTitleStatus
+     */
+    public void setBaseTitleStatus(boolean baseTitleStatus){
+        showBaseTitle = baseTitleStatus;
+    }
+
+
+
+
     /**
      * 获取状态栏的高度
      * @return
@@ -220,4 +255,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
+
+
+    public void setBaseTitle(String title){
+        LogUtil.e("setTitle 调用了");
+        baseTitle.setText(title);
+    }
+
+    protected void setBaseBackStatus(int status){
+        baseBack.setVisibility(status);
+    }
+
 }

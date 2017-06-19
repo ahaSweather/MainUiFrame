@@ -21,6 +21,9 @@ import com.example.a51425.mainuiframe.ui.fragment.HomeFragment;
 import com.example.a51425.mainuiframe.ui.fragment.MessageFragment;
 import com.example.a51425.mainuiframe.ui.fragment.MyFragment;
 import com.example.a51425.mainuiframe.ui.fragment.ShareFragment;
+import com.example.a51425.mainuiframe.ui.serivce.JobHandlerService;
+import com.example.a51425.mainuiframe.ui.serivce.LocalService;
+import com.example.a51425.mainuiframe.ui.serivce.RemoteService;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.ui.view.ViewPagerMain;
 import com.example.a51425.mainuiframe.utils.StatusBarUtil;
@@ -42,6 +45,11 @@ public class MainActivity extends BaseActivity {
     private long mExitTime = 0L;
 
 
+    @Override
+    protected void beforeLoading() {
+        super.beforeLoading();
+        setBaseTitleStatus(false);
+    }
 
     @Override
     protected View getContentView() {
@@ -51,6 +59,17 @@ public class MainActivity extends BaseActivity {
         hideStatusBar = false;
 
         return view;
+    }
+
+    @Override
+    protected void initView() {
+        super.initView();
+        startService(new Intent(this, LocalService.class));
+        startService(new Intent(this, RemoteService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            startService(new Intent(this, JobHandlerService.class));
+        }
+
     }
 
     @Override
@@ -82,6 +101,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         super.initData();
+
         initViewPager();
         //刚进来默认展示第1页的数据
         mViewpagerMain.setCurrentItem(0,false);
@@ -174,4 +194,7 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyUp(keyCode, event);
     }
+
+
+
 }

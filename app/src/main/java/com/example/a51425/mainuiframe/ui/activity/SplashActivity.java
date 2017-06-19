@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.base.BaseActivity;
+import com.example.a51425.mainuiframe.ui.serivce.JobHandlerService;
+import com.example.a51425.mainuiframe.ui.serivce.LocalService;
+import com.example.a51425.mainuiframe.ui.serivce.RemoteService;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 
 /**
@@ -27,6 +30,7 @@ public class SplashActivity extends BaseActivity {
         }catch (Exception e){
             LogUtil.e(Log.getStackTraceString(e));
         }
+        setBaseTitleStatus(false);
     }
 
     @Override
@@ -45,6 +49,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 jumpToActivity(SplashActivity.this,MainActivity.class,null);
+//                startService(new Intent(SplashActivity.this, LocalService.class));
+//                startService(new Intent(SplashActivity.this, RemoteService.class));
+//                startService(new Intent(SplashActivity.this, JobHandlerService.class));
                 finish();
             }
         },0);

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.base.MyBaseFragment;
@@ -23,8 +24,9 @@ import butterknife.OnClick;
 public class ShareFragment extends MyBaseFragment implements IShareFragmentView {
 
 
-    @BindView(R.id.ll_status_height)
-    public LinearLayout mStatusHeight;
+
+    @BindView(R.id.tv_base_title)
+    TextView mTitle;
     private ShareFragmentPresenter mShareFragmentPresenter;
     private MainActivity mainActivity;
     private String shareTitle = "有问题吗？真的有问题吗？";
@@ -35,6 +37,7 @@ public class ShareFragment extends MyBaseFragment implements IShareFragmentView 
     @Override
     public void initView() {
         StatusBarUtil.setColor(getmActivity(),getResources().getColor(R.color.colorPrimary),0);
+
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ShareFragment extends MyBaseFragment implements IShareFragmentView 
 
     @Override
     public void initData() {
-
+        mTitle.setText("hello");
         LogUtil.e(getClass().getName()+"_________initData");
         //正常来说是再返回数据成功时根据数据来判断显示那个布局
         stateLayout.showContentView();

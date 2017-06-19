@@ -3,27 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/ll_status_height"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        ></LinearLayout>
+    <include layout="@layout/fragment_title"></include>
 
-    <Button
+    <TextView
         android:id="@+id/btn_shareWX1"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:text="分享到微信好友（通过修改微信sdk，绕过微信审核进行分享）"
         android:textColor="#000"
+        android:gravity="center"
         android:background="@color/colorPrimary"
         />
-    <Button
+    <TextView
         android:id="@+id/btn_shareWX2"
         android:layout_below="@+id/btn_shareWX1"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="30dp"
+        android:gravity="center"
         android:text="分享到微信朋友圈（通过修改微信sdk，绕过微信审核进行分享）"
         android:textColor="#000"
         android:background="@color/colorPrimary"

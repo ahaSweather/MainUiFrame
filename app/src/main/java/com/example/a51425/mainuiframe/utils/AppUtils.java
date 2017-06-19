@@ -565,31 +565,37 @@ public final class AppUtils {
 	}
 	public static boolean checkApkExist(Context context, String packageName) {
 
-		if (packageName == null || "".equals(packageName))
-			return false;
-		try {
-			ApplicationInfo info = APP.getContext().getPackageManager().getApplicationInfo(packageName,
-					PackageManager.GET_UNINSTALLED_PACKAGES);
-			return true;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-			LogUtil.e(e.toString());
+		if (StringUtils.isEmpty(packageName)){
 			return false;
 		}
+		final PackageManager packageManager = APP.getContext().getPackageManager();
+		List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+		if (pinfo != null) {
+			for (int i = 0; i < pinfo.size(); i++) {
+				String pn = pinfo.get(i).packageName;
+				if (pn.equals(packageName)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public static boolean checkApkExist( String packageName) {
 
-		if (packageName == null || "".equals(packageName))
-			return false;
-		try {
-			ApplicationInfo info = APP.getContext().getPackageManager().getApplicationInfo(packageName,
-					PackageManager.GET_UNINSTALLED_PACKAGES);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			LogUtil.e(e.toString());
+		if (StringUtils.isEmpty(packageName)){
 			return false;
 		}
+		final PackageManager packageManager = APP.getContext().getPackageManager();
+		List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+		if (pinfo != null) {
+			for (int i = 0; i < pinfo.size(); i++) {
+				String pn = pinfo.get(i).packageName;
+				if (pn.equals(packageName)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	public static void getAllAppNames(Context context){
 		PackageManager pm=context.getPackageManager();

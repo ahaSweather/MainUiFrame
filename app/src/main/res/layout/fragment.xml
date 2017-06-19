@@ -3,6 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/fragment_title"></include>
     <LinearLayout
         android:id="@+id/ll_status_height"
         android:layout_width="match_parent"
@@ -13,7 +14,6 @@
         android:id="@+id/tv_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="你妈妈喊你回家吃饭了！"
         android:layout_gravity="center"
         android:textColor="#000"
         />

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.base.MyBaseFragment;
+import com.example.a51425.mainuiframe.ui.activity.MainActivity;
 import com.example.a51425.mainuiframe.utils.LogUtil;
 
 import butterknife.BindView;
@@ -19,10 +20,14 @@ public class MyFragment extends MyBaseFragment {
     TextView mTvShow;
     @BindView(R.id.ll_status_height)
     LinearLayout mStatusHeight;
+    @BindView(R.id.tv_base_title)
+    TextView mTitle;
+    private MainActivity mainActivity;
 
 
     @Override
     public void initView() {
+        mainActivity = (MainActivity) mActivity;
 
     }
 
@@ -33,6 +38,7 @@ public class MyFragment extends MyBaseFragment {
 
     @Override
     public void initData() {
+        mTitle.setText("hello1");
         LogUtil.e(getClass().getName()+"_________initData");
         stateLayout.showFailView();
     }

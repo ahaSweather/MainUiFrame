@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/pulldown_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="66dip"
+        android:orientation="vertical"
+        android:padding="3dp"
+        >
+
+        <ImageView
+            android:id="@+id/iv_circle_head"
+            android:layout_width="30dip"
+            android:layout_height="47dip"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:background="@drawable/img_common_loading_1" />
+
+        <ImageView
+            android:id="@+id/loadingIv"
+            android:layout_width="30dip"
+            android:layout_height="47dip"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@drawable/common_loading"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_circle_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="10sp"
+            android:text="加载中..." />
+    </LinearLayout>
+
+</LinearLayout>

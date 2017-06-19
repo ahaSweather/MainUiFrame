@@ -49,6 +49,7 @@ public class WebViewActivity extends BaseActivity{
         }catch (Exception e){
             LogUtil.e(Log.getStackTraceString(e));
         }
+        setBaseTitleStatus(false);
     }
 
     @Override
