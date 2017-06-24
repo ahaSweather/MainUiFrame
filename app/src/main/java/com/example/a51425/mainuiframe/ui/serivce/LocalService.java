@@ -76,6 +76,7 @@ public class LocalService extends Service {
         return localServiceBinder;
     }
 
+
     class LocalServiceConnection implements ServiceConnection{
 
         //当外面的客户程序和我们绑定时调用的
@@ -105,6 +106,25 @@ public class LocalService extends Service {
         }
     }
 
+    @Override
+    public void onDestroy() {
+
+        try {
+            LocalService.this.startService(new Intent(LocalService.this, RemoteService.class));
+            LocalService.this.bindService(new Intent(LocalService.this, RemoteService.class), localServiceConnection
+                    , Context.BIND_IMPORTANT
+            );
+        } catch (Exception e) {
+            LogUtil.e(Log.getStackTraceString(e) + "失败1");
+        }
+
+        try {
+            super.onDestroy();
+        } catch (Exception e) {
+            LogUtil.e(Log.getStackTraceString(e) + "失败2");
+        }
+
+    }
 
     private Timer timer;
     private TimerTask timerTask;

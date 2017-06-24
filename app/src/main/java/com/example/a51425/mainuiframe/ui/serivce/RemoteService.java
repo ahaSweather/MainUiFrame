@@ -79,6 +79,8 @@ public class RemoteService extends Service {
 
 
 
+
+
     class RemoteServiceConnection implements ServiceConnection {
 
         //当外面的客户程序和我们绑定时调用的
@@ -135,6 +137,26 @@ public class RemoteService extends Service {
                 Log.e(getClass().getName()," init Timer ____"+(counter ++));
             }
         };
+    }
+
+    @Override
+    public void onDestroy() {
+//        super.onDestroy();
+
+        try{
+            RemoteService.this.startService(new Intent(RemoteService.this, LocalService.class));
+            //让两个进程进行绑定
+            RemoteService.this.bindService(new Intent(RemoteService.this, LocalService.class),remoteServiceConnection
+                    , Context.BIND_IMPORTANT
+            );
+        }catch (Exception e){
+            LogUtil.e(Log.getStackTraceString(e));
+        }
+        try{
+            super.onDestroy();
+        }catch (Exception e){
+
+        }
     }
 
     /**
