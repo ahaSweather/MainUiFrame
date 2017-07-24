@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang ="en">
+<head>
+	<meta charset = "UTF-8">
+	<title> HelloWorld</title>
+	<!--<script type="text/javascript" language="javascript">-->
+
+	<!--function test(){-->
+	<!--&lt;!&ndash;alert("HelloWorld");&ndash;&gt;-->
+	<!--document.getElementById("content").innerHTML = "Android 调用 Javascript 成功";-->
+	<!--}-->
+
+	<!--</script>-->
+</head>
+<body>
+<button id="btn1">helloWorld</button>
+<input type="text" id="show"/>
+<script type="text/javascript">
+
+	// test("111");
+		document.getElementById("btn1").onclick = function  () {
+		// <!--window.test.showToast()-->
+		// console.log(1);
+		alert("点击了");
+		// test();
+
+	}
+		function test(msg){
+				// 				console.log(2);
+				// alert("HelloWorld");
+				// 		console.log(3);
+				// <!--document.getElementById("content").innerHTML = "Android 调用 Javascript 成功";-->
+				  document.getElementById("show").value=msg;
+				alert("安卓调js成功");
+			}
+</script>
+</body>
+
+
+
+</html>

@@ -55,6 +55,7 @@ public class WebViewActivity extends BaseActivity{
     @Override
     protected View getContentView() {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_web, null);
+//        mWebView = new WebView(this);
         showSlidr = true;
         hideStatusBar = true;
         return view;

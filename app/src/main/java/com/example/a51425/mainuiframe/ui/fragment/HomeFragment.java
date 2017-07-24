@@ -46,7 +46,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
     private MainActivity mainActivity;
 
     private LinearLayoutManager mLinearLayoutManager;
-    private List shareList;
+
     private ShareFragmentAdapter mShareAdapter;
     private List<HomeFragmentBean> mData = new ArrayList<>();
     private int page ;
@@ -79,6 +79,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
                 if (mData.size()==0){
                     return;
                 }
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("bean",mData.get(position));
                 mainActivity.jumpToActivity(mainActivity,WebViewActivity.class,bundle);
@@ -90,7 +91,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
             public void onLoadMoreRequested() {
                 LogUtil.e("loadMore");
                 page++;
-                mHomeFragmentPresenter.initData(mData,page, mShareAdapter);
+                mHomeFragmentPresenter.initData(page);
 
             }
         },mRecyclerView);
@@ -106,14 +107,14 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 page = 1;
-                mHomeFragmentPresenter.initData(mData,page,mShareAdapter);
-                frame.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        LogUtil.e("开始下拉刷新——————");
-                        ptrFrame.refreshComplete();
-                    }
-                }, 1800);
+                mHomeFragmentPresenter.initData(page);
+//                frame.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        LogUtil.e("开始下拉刷新——————");
+//                        ptrFrame.refreshComplete();
+//                    }
+//                }, 1800);
             }
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -130,13 +131,9 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
         LogUtil.e(getClass().getName()+"_________initData");
 //        stateLayout.showContentView();
         page = 1;
-        mHomeFragmentPresenter.initData(mData,page,mShareAdapter);
+        mHomeFragmentPresenter.initData(page);
 
     }
-
-
-
-
 
     /**
      * 初始化主RecyclerView
@@ -145,7 +142,7 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mShareAdapter = new ShareFragmentAdapter(shareList);
+        mShareAdapter = new ShareFragmentAdapter(mData);
         mRecyclerView.setAdapter(mShareAdapter);
 //        mShareAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
     }
@@ -185,4 +182,19 @@ public class HomeFragment extends MyBaseFragment implements IHomeFragmentView {
     }
 
 
+    public void dealData(List<HomeFragmentBean> mData) {
+       if (mData.size()!=0){
+           //证明没到底部
+           this.mData.addAll(mData);
+           mShareAdapter.setNewData(this.mData);
+           if (page>1){
+               mShareAdapter.loadMoreComplete();
+           }else{
+               ptrFrame.refreshComplete();
+           }
+       }else{
+           mShareAdapter.loadMoreEnd();
+       }
+        showContentView();
+    }
 }

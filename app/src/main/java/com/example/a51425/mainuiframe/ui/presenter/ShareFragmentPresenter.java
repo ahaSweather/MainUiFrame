@@ -27,16 +27,14 @@ import rx.schedulers.Schedulers;
  * Created by 51425 on 2017/6/12.
  */
 
-public class ShareFragmentPresenter extends BasePresenter {
-    private ShareFragment mShareFragment;
-    private IShareFragmentView mIShareFragmentView;
+public class ShareFragmentPresenter extends BasePresenter<ShareFragment> {
+
     private String shareAppId;
     private String shareAppPackageName;
 
     public ShareFragmentPresenter(ShareFragment shareFragment) {
-        super();
-        this.mShareFragment = shareFragment;
-        this.mIShareFragmentView = shareFragment;
+        super(shareFragment);
+
     }
 
     /**
@@ -44,8 +42,8 @@ public class ShareFragmentPresenter extends BasePresenter {
      * @param content  分享描述
      */
     public void throughIntentShareWXFriends(String content,int type){
-        if (!AppUtils.checkApkExist(mShareFragment.getmActivity(), "com.tencent.mm")) {
-            ToastUtil.showToast(mShareFragment.getmActivity(), "亲，你还没安装微信");
+        if (!AppUtils.checkApkExist(mContext.getmActivity(), "com.tencent.mm")) {
+            ToastUtil.showToast(mContext.getmActivity(), "亲，你还没安装微信");
             return;
         }
         if (content == null || "".equals(content)){

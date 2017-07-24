@@ -134,7 +134,7 @@ public class RemoteService extends Service {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.e(getClass().getName()," init Timer ____"+(counter ++));
+//                Log.e(getClass().getName()," init Timer ____"+(counter ++));
             }
         };
     }

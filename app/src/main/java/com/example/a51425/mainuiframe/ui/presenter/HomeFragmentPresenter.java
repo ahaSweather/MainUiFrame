@@ -15,26 +15,20 @@ import java.util.List;
  * Created by 51425 on 2017/6/12.
  */
 
-public class HomeFragmentPresenter extends BasePresenter {
-    private HomeFragment mHomeFragment;
-    private IHomeFragmentView mIHomeFragmentView;
-    private String shareAppId;
-    private String shareAppPackageName;
+public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
+
 
     public HomeFragmentPresenter(HomeFragment homeFragment) {
-        super();
-        this.mHomeFragment = homeFragment;
-        this.mIHomeFragmentView = homeFragment;
+        super(homeFragment);
+
     }
 
-    public List<HomeFragmentBean> initData(List<HomeFragmentBean> data, int page, ShareFragmentAdapter mShareAdapter){
+    public void initData(int page){
 
         LogUtil.e("page____"+page);
-        ArrayList<HomeFragmentBean> mData = new ArrayList<>();
+        List<HomeFragmentBean> mData = new ArrayList<>();
         if ( page < 4){
-            if (page == 1){
-                data.clear();
-            }
+
             for (int i = 0; i <6; i++) {
                 HomeFragmentBean homeFragmentBean = new HomeFragmentBean(HomeFragmentBean.VIEDEO);
                 String shareTitle = "呵呵"+i;
@@ -50,7 +44,6 @@ public class HomeFragmentPresenter extends BasePresenter {
                     jumpUrl = "http://www.tudou.com/l/e3XqM6nAiPU/&iid=11507091/v.swf";
                     homeFragmentBean.setVideo(true);
                 }
-
                 homeFragmentBean.setShareTitle(shareTitle);
                 homeFragmentBean.setShareContent(shareContent);
                 homeFragmentBean.setShareImageUrl(shareImageUrl);
@@ -60,18 +53,20 @@ public class HomeFragmentPresenter extends BasePresenter {
             }
 
         }
+            mContext.dealData(mData);
 
-        if (mData.size()!=0){
-            data.addAll(mData);//将每次请求下来的新数据添加到原先的集合中
-            mShareAdapter.addData(mData);//更新新添加的数据
-            mIHomeFragmentView.showContentView();
-            if (page>1){
-                mShareAdapter.loadMoreComplete();
-            }
-        }else{
-            mShareAdapter.loadMoreEnd();
-        }
-        return mData;
+//        if (mData.size()!=0){
+//            //将每次请求下来的新数据添加到原先的集合中
+//            mShareAdapter.setData(data.size(),mData); //更新新添加的数据
+//            data.addAll(mData);
+//            mIHomeFragmentView.showContentView();
+//            if (page>1){
+//                mShareAdapter.loadMoreComplete();
+//            }
+//        }else{
+//            mShareAdapter.loadMoreEnd();
+//        }
+
 
     }
 

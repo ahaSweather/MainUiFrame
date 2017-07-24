@@ -8,6 +8,7 @@ import android.os.StrictMode;
 
 import com.example.a51425.mainuiframe.utils.LogUtil;
 import com.example.a51425.mainuiframe.utils.MeasureUtil;
+import com.example.a51425.mainuiframe.utils.SharedPreferanceUtils;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class APP extends Application {
     public static Context context;
     private static List<Activity> activities = new LinkedList<>();
     private static APP application;
+    private static SharedPreferanceUtils sharedPreferanceUtils;
 
     public static Context getContext() {
         return context;
@@ -29,6 +31,9 @@ public class APP extends Application {
 
     public static APP getInstance() {
         return application;
+    }
+    public static SharedPreferanceUtils getSharedPreferanceUtils(){
+        return sharedPreferanceUtils;
     }
 
 
@@ -45,7 +50,7 @@ public class APP extends Application {
         int height = MeasureUtil.getHeight(APP.getContext());
         LogUtil.e("手机的宽——————————"+width);
         LogUtil.e("手机的高——————————"+height);
-
+        sharedPreferanceUtils = new SharedPreferanceUtils();
         initX5();
 //        initLeakCanary();
     }
