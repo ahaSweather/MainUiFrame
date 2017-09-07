@@ -26,6 +26,10 @@ public class Constant {
     public static final String WEIXINAPPPACKAGEBAIDU;
 
 
+    private static final String WEIXINAPPKEYDAYANDDAY;
+
+    private static final String WEIXINAPPPACKAGEDAYANDDAY;
+
     static {
         /**
          * qq的appId ,package
@@ -63,5 +67,10 @@ public class Constant {
         WEIXINAPPKEYBAIDU = "wx27a43222a6bf2931";
         WEIXINAPPPACKAGEBAIDU = "com.baidu.searchbox";
 
+        /**
+         * 天天快报
+         */
+        WEIXINAPPKEYDAYANDDAY = "wxe90c9765ad00e2cd";
+        WEIXINAPPPACKAGEDAYANDDAY = "com.tencent.reading";
     }
 }

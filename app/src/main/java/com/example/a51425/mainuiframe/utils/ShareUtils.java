@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,6 +19,7 @@ import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -60,7 +62,7 @@ public class ShareUtils {
      * 通过intent 方式分享内容到微信好友
      * @param imageUri
      */
-    public static void throughIntentShareWXImage( String imageUri) {
+    public static void throughIntentShareWXImage( Uri imageUri) {
         try{
             Intent intentFriend = new Intent();
             ComponentName compFriend = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareImgUI");
@@ -252,11 +254,14 @@ public class ShareUtils {
                 ShareUtils.shareWX(weakReference,Constant.WEIXINAPPKEYNEWSTODAY,Constant.WEIXINAPPPACKAGENEWSTODAY,shareTitle
                         ,share_word,shareUrl,type,bitmap,onShareLitener);
 
-            }else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGEBAIDU)){
-                LogUtil.e("安装了百度");
-                ShareUtils.shareWX(weakReference,Constant.WEIXINAPPKEYBAIDU,Constant.WEIXINAPPPACKAGEBAIDU,shareTitle
-                        ,share_word,shareUrl,type,bitmap,onShareLitener);
-            }else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGESINA)){
+            }
+            //目前百度的已经无效
+//            else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGEBAIDU)){
+//                LogUtil.e("安装了百度");
+//                ShareUtils.shareWX(weakReference,Constant.WEIXINAPPKEYBAIDU,Constant.WEIXINAPPPACKAGEBAIDU,shareTitle
+//                        ,share_word,shareUrl,type,bitmap,onShareLitener);
+//            }
+            else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGESINA)){
                 LogUtil.e("安装了sina");
                 ShareUtils.shareWX(weakReference,Constant.WEIXINAPPKEYSINA,Constant.WEIXINAPPPACKAGESINA,shareTitle
                         ,share_word,shareUrl,type,bitmap,onShareLitener);
@@ -306,6 +311,7 @@ public class ShareUtils {
 
     /**
      *  根据手机上安装的软件返回具体的包名和appID，这里面其实能做很多处理，我这只是安顺序写下来了，一般qq就返回去了。。。
+     *  不定时更新key ,其实有如果有必要完全可以自己去破解
      * @param shareImage
      * @return
      */
@@ -339,19 +345,30 @@ public class ShareUtils {
             LogUtil.e("安装了今日头条");
             return strings;
 
-        } else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGEBAIDU)) {
-            strings[0] = Constant.WEIXINAPPKEYBAIDU;
-            strings[1] = Constant.WEIXINAPPPACKAGEBAIDU;
-            strings[2] = shareImage;
-            LogUtil.e("安装了百度");
-            return strings;
-        } else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGESINA)) {
+        }
+
+//        else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGEBAIDU)) {
+//            strings[0] = Constant.WEIXINAPPKEYBAIDU;
+//            strings[1] = Constant.WEIXINAPPPACKAGEBAIDU;
+//            strings[2] = shareImage;
+//            LogUtil.e("安装了百度");
+//            return strings;
+//        }
+        else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGESINA)) {
             strings[0] = Constant.WEIXINAPPKEYSINA;
             strings[1] = Constant.WEIXINAPPPACKAGESINA;
             strings[2] = shareImage;
             LogUtil.e("安装了sina");
             return strings;
         }
+        else if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGENEWSTODAY)) {
+            strings[0] = Constant.WEIXINAPPKEYNEWSTODAY;
+            strings[1] = Constant.WEIXINAPPPACKAGENEWSTODAY;
+            strings[2] = shareImage;
+            LogUtil.e("安装了天天快报");
+            return strings;
+        }
+
         return null;
     }
 
@@ -422,4 +439,65 @@ public class ShareUtils {
         return result;
     }
 
+
+
+
+    public static void saveFile(final String shareUrl, final String imagePath, final GetResultListener<Uri> getResultListener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    File file = new File(imagePath);
+                    FileOutputStream out = new FileOutputStream(file);
+                    getBitmap(shareUrl).compress(Bitmap.CompressFormat.PNG, 90, out);
+                    out.flush();
+                    out.close();
+                    //成功保存图片后将文件传回去
+                    getResultListener.onSuccess(Uri.fromFile(file));
+                } catch (Exception e) {
+                    getResultListener.onError();
+                    LogUtil.e(android.util.Log.getStackTraceString(e));
+                }
+            }
+        }).start();
+    }
+    private static Bitmap getBitmap(String saveUrl) throws Exception{
+
+        URL pictureUrl = new URL(saveUrl);
+        InputStream in = pictureUrl.openStream();
+        SoftReference<Bitmap> bitmapSoftReference = new SoftReference<>(BitmapFactory.decodeStream(in));
+        Bitmap bitmap = bitmapSoftReference.get();
+        in.close();
+        return bitmap;
+    }
+
+    /**
+     * 图片路径
+     */
+    public static String createPhotoFile() {
+        String path = "";
+        // 判断sd卡是否存在
+        try{
+            if (android.os.Environment.MEDIA_MOUNTED.equals(Environment
+                    .getExternalStorageState())) {
+                File sdDir = Environment.getExternalStorageDirectory();// 获取根目录
+                //换成你们自己的目录
+                File dir = new File(sdDir + "/" +"manUi");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                //换成你们自己的目录
+                File childDir = new File(sdDir + "/" + "manUi/photodownload");
+                if (!childDir.exists()) {
+                    childDir.mkdirs();
+                }
+                path = childDir.getAbsolutePath();
+            }
+        }catch (Exception e){
+            LogUtil.e(Log.getStackTraceString(e));
+        }
+
+        return path;
+    }
 }

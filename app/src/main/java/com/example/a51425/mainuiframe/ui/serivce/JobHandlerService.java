@@ -71,7 +71,7 @@ public class JobHandlerService extends JobService {
         this.startService(new Intent(this,LocalService.class));
         this.startService(new Intent(this,RemoteService.class));
         }
-        return true;
+        return false;
     }
 
     @Override

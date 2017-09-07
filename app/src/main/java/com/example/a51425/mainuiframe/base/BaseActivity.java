@@ -218,7 +218,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 设置侧滑是否出现 默认 false  true需要配合相应的 theme
+     * 设置侧滑是否出现 默认 false  true需要配合相应的 theme ,需要解决滑动冲突
      * @param showSlidr
      */
     private void setSlidr(boolean showSlidr) {
