@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MainUiFrame.iml" filepath="$PROJECT_DIR$/MainUiFrame.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\LqqAndroid\android\gitDemo\myselfDemo\MainUiFrame\app\app.iml" filepath="D:\LqqAndroid\android\gitDemo\myselfDemo\MainUiFrame\app\app.iml" />
     </modules>
   </component>
 </project>

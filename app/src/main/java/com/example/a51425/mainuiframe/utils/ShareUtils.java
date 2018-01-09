@@ -152,7 +152,7 @@ public class ShareUtils {
      *  通过intent 分享内容到QQ
      * @param fileUri
      */
-    public static void throughIntentShareQQImage(String fileUri){
+    public static void throughIntentShareQQImage(Uri fileUri){
         try{
             if (fileUri != null) {
                 Intent intent = new Intent();
