@@ -7,8 +7,8 @@ import android.support.annotation.NonNull;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.cyxk.wrframelibrary.base.MyDialogFragment;
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.base.MyDialogFragment;
 
 /**
  * Created by 51425 on 2017/5/9.

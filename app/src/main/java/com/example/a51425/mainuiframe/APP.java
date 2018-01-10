@@ -1,14 +1,9 @@
 package com.example.a51425.mainuiframe;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.os.Build;
-import android.os.StrictMode;
 
-import com.example.a51425.mainuiframe.utils.LogUtil;
-import com.example.a51425.mainuiframe.utils.MeasureUtil;
-import com.example.a51425.mainuiframe.utils.SharedPreferanceUtils;
+import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.util.LinkedList;
@@ -18,44 +13,14 @@ import java.util.List;
  * Created by XinYue on 2016/12/14.
  */
 
-public class APP extends Application {
-
-    public static Context context;
-    private static List<Activity> activities = new LinkedList<>();
-    private static APP application;
-    private static SharedPreferanceUtils sharedPreferanceUtils;
-
-    public static Context getContext() {
-        return context;
-    }
-
-    public static APP getInstance() {
-        return application;
-    }
-    public static SharedPreferanceUtils getSharedPreferanceUtils(){
-        return sharedPreferanceUtils;
-    }
-
+public class APP extends com.cyxk.wrframelibrary.base.APP {
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        context = this;
-        //7.0Uri适配
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-            StrictMode.setVmPolicy(builder.build());
-        }
-        int width = MeasureUtil.getWidth(APP.getContext());
-        int height = MeasureUtil.getHeight(APP.getContext());
-        LogUtil.e("手机的宽——————————"+width);
-        LogUtil.e("手机的高——————————"+height);
-        sharedPreferanceUtils = new SharedPreferanceUtils();
+    protected void init() {
         initX5();
-//        initLeakCanary();
     }
 
-//    private void initLeakCanary() {
+    //    private void initLeakCanary() {
 //        if (LeakCanary.isInAnalyzerProcess(this)) {
 //			// This process is dedicated to LeakCanary for heap analysis.
 //			// You should not init your app in this process.

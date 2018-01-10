@@ -2,16 +2,12 @@ package com.example.a51425.mainuiframe.ui.view;
 
 
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.utils.LogUtil;
 
 
 /**

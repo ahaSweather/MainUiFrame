@@ -1,7 +1,5 @@
 package com.example.a51425.mainuiframe.ui.serivce;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.job.JobInfo;
 import android.app.job.JobParameters;
@@ -13,7 +11,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.example.a51425.mainuiframe.utils.LogUtil;
+import com.cyxk.wrframelibrary.utils.LogUtil;
 
 import java.util.List;
 

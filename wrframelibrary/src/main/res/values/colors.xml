@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2a3143</color>
+    <color name="colorPrimaryDark">#2a3143</color>
+    <color name="colorAccent">#2a3143</color>
+
+
+
+    <color name="login_bg">#fff</color>
+
+
+    <color name="gray_f5">#f5f5f5</color>
+    <color name="gray_e5">#e5e5e5</color>
+    <color name="gray_lbg">#d9d9d9</color>
+    <color name="white">#fff</color>
+    <color name="viewColor">#dddee4</color>
+    <color name="orange_ffe">#ffe1c3</color>
+
+    <color name="partTranslucent">#39000000</color>
+    <color name="black" >#000</color>
+    <color name="gray_9">#999999</color>
+    <color name="home_line">#f1f1f1</color>
+    <color name="wx">#f3f3f3</color>
+    <color name="wx2">#d9d9d9</color>
+    <color name="transparent">#00000000</color>
+    <color name="gray_82">#828282</color>
+    <color name="gray_e4">#e4e4e4</color>
+    <color name="black32">#323232</color>
+    <color name="purplea6">#a685c8</color>
+    <color name="status_color">#f57198</color>
+    <color name="tv_friends">#a685c8</color>
+    <color name="gray_a9">#a9a9a9</color>
+    <color name="guide_e">#9a9a93</color>
+
+    <color name="gray_3">#333333</color>
+    <color name="gray_d8">#a6a5a5</color>
+    <color name="black3f">#3f3f3f</color>
+    <color name="gray_f1">#f1f1f1</color>
+    <color name="gray_94">#949494</color>
+    <color name="ff8343">#ff8343</color>
+    <color name="blue">#2e89fd</color>
+    <color name="ava">#ff8343</color>
+    <color name="un_ava">#ffb38c</color>
+    <color name="gray_1d8">#cdd1d8</color>
+    <color name="gray_66">#666666</color>
+    <color name="gray_acafc0">#acafc0</color>
+    <color name="red_ff1851">#ff1851</color>
+
+</resources>

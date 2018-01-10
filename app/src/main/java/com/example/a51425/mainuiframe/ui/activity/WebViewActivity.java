@@ -1,44 +1,44 @@
 package com.example.a51425.mainuiframe.ui.activity;
 
-import android.content.pm.ActivityInfo;
+import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
 
-import com.example.a51425.mainuiframe.APP;
+import com.cyxk.wrframelibrary.base.BaseActivity;
+import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.base.BaseActivity;
 import com.example.a51425.mainuiframe.bean.HomeFragmentBean;
-import com.example.a51425.mainuiframe.utils.LogUtil;
-import com.example.a51425.mainuiframe.utils.ToastUtil;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
-import java.io.Serializable;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by 51425 on 2017/6/15.
  */
-public class WebViewActivity extends BaseActivity{
+public class WebViewActivity extends BaseActivity {
     @BindView(R.id.webView)
     public WebView mWebView;
 //    @BindView(R.id.fl_web)
 //    public FrameLayout mFrameLayout;
     private HomeFragmentBean mBean;
+    private Unbinder mBind;
 
+
+    @Override
+    protected void registerBind(Context context, View view) {
+        mBind = ButterKnife.bind(context, view);
+    }
 
     @Override
     protected void beforeLoading() {
@@ -63,7 +63,6 @@ public class WebViewActivity extends BaseActivity{
 
     @Override
     protected void initListener() {
-        super.initListener();
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String mUrl) {
@@ -75,7 +74,6 @@ public class WebViewActivity extends BaseActivity{
 
     @Override
     protected void initView() {
-        super.initView();
         mBean = (HomeFragmentBean) getIntent().getSerializableExtra("bean");
         mWebView.setHapticFeedbackEnabled(false);
         WebSettings mWebSettings = mWebView.getSettings();
@@ -109,7 +107,6 @@ public class WebViewActivity extends BaseActivity{
 
     @Override
     protected void initData() {
-        super.initData();
         mWebView.loadUrl(mBean.getJumpUrl());
         LogUtil.e("loadurl____"+mBean.getJumpUrl());
     }
@@ -120,6 +117,13 @@ public class WebViewActivity extends BaseActivity{
         destroy();
 
 
+    }
+
+    @Override
+    protected void unRegister() {
+        if (mBind!= null){
+            mBind.unbind();
+        }
     }
 //
 //    /**

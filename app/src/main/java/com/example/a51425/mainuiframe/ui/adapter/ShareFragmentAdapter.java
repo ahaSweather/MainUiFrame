@@ -5,13 +5,10 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.cyxk.wrframelibrary.utils.ImageUtils;
 import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.bean.HomeFragmentBean;
-import com.example.a51425.mainuiframe.ui.activity.MainActivity;
-import com.example.a51425.mainuiframe.utils.ImageUtils;
-import com.example.a51425.mainuiframe.utils.StatusBarUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +30,7 @@ public class ShareFragmentAdapter extends BaseMultiItemQuickAdapter<HomeFragment
         switch (item.getItemType()){
             case HomeFragmentBean.VIEDEO:
 
-                ImageUtils.loaderNoCache(item.getShareImageUrl(), (ImageView) viewHolder.getView(R.id.iv_video_bottom));
+                ImageUtils.loaderNoCache(mContext,item.getShareImageUrl(), (ImageView) viewHolder.getView(R.id.iv_video_bottom));
                 ImageView view = viewHolder.getView(R.id.iv_video_top);
                 if (item.isVideo()){
                     view.setVisibility(View.VISIBLE);

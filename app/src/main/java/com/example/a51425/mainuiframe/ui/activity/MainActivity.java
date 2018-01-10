@@ -1,7 +1,7 @@
 package com.example.a51425.mainuiframe.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -11,40 +11,42 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 
+import com.cyxk.wrframelibrary.base.BaseActivity;
+import com.cyxk.wrframelibrary.utils.LogUtil;
+import com.cyxk.wrframelibrary.utils.ToastUtil;
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.base.BaseActivity;
 import com.example.a51425.mainuiframe.ui.adapter.MainAdapter;
-import com.example.a51425.mainuiframe.ui.fragment.FindFragment;
-import com.example.a51425.mainuiframe.ui.fragment.HomeFragment;
-import com.example.a51425.mainuiframe.ui.fragment.MessageFragment;
-import com.example.a51425.mainuiframe.ui.fragment.MyFragment;
-import com.example.a51425.mainuiframe.ui.fragment.ShareFragment;
+import com.example.a51425.mainuiframe.ui.TestTask.TestFragment;
+import com.example.a51425.mainuiframe.ui.ShareTask.ShareFragment;
 import com.example.a51425.mainuiframe.ui.serivce.JobHandlerService;
 import com.example.a51425.mainuiframe.ui.serivce.LocalService;
 import com.example.a51425.mainuiframe.ui.serivce.RemoteService;
-import com.example.a51425.mainuiframe.utils.LogUtil;
-import com.example.a51425.mainuiframe.ui.view.ViewPagerMain;
-import com.example.a51425.mainuiframe.utils.StatusBarUtil;
-import com.example.a51425.mainuiframe.utils.ToastUtil;
+import com.cyxk.wrframelibrary.view.ViewPagerMain;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends BaseActivity {
 
 
-    @BindView(R.id.viewpager_main)
+//    @BindView(R.id.viewpager_main)
     ViewPagerMain mViewpagerMain;
-    @BindView(R.id.main_bottom_root)
+//    @BindView(R.id.main_bottom_root)
     LinearLayout mMainBottomRoot;
     private List<Fragment> fragments;
     private long mExitTime = 0L;
+    private Unbinder mBind;
 
+
+    @Override
+    protected void registerBind(Context context, View view) {
+        mBind = ButterKnife.bind(context, view);
+    }
 
     @Override
     protected void beforeLoading() {
@@ -55,6 +57,13 @@ public class MainActivity extends BaseActivity {
             LogUtil.e(Log.getStackTraceString(e));
         }
         setBaseTitleStatus(false);
+    }
+
+    @Override
+    protected void unRegister() {
+        if (mBind!= null){
+            mBind.unbind();
+        }
     }
 
     @Override
@@ -69,18 +78,20 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        super.initView();
+
         startService(new Intent(this, LocalService.class));
         startService(new Intent(this, RemoteService.class));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
             startService(new Intent(this, JobHandlerService.class));
         }
 
+        mViewpagerMain = (ViewPagerMain) findViewById(R.id.viewpager_main);
+        mMainBottomRoot = (LinearLayout) findViewById(R.id.main_bottom_root);
     }
 
     @Override
     protected void initListener() {
-        super.initListener();
+
         //设置不能左右滑动
         mViewpagerMain.setIsScroll(false);
         //viewPager预加载1页
@@ -106,7 +117,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        super.initData();
+
 
         initViewPager();
         //刚进来默认展示第1页的数据
@@ -121,10 +132,7 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         fragments = new ArrayList<>();
         fragments.add(new ShareFragment());
-        fragments.add(new MessageFragment());
-        fragments.add(new HomeFragment());
-        fragments.add(new FindFragment());
-        fragments.add(new MyFragment());
+        fragments.add(new TestFragment());
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewpagerMain.setAdapter(adapter);
     }
@@ -184,12 +192,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
-
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+
             if (System.currentTimeMillis() - mExitTime < 2000) {
                 moveTaskToBack(true);
                 return true;
@@ -198,9 +205,8 @@ public class MainActivity extends BaseActivity {
             ToastUtil.showToast(MainActivity.this, "再按一次退出程序");
             return true;
         }
-        return super.onKeyUp(keyCode, event);
+        return super.onKeyDown(keyCode, event);
     }
-
 
 
 }

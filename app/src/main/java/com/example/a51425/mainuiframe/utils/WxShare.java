@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import com.example.a51425.mainuiframe.interfaces.GetResultListener;
+
+import com.cyxk.wrframelibrary.framework.CallBackListener;
+import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 
 import java.lang.ref.WeakReference;
@@ -19,7 +21,7 @@ import java.util.List;
 public class WxShare {
 
     private static SendMessageToWX.Req localReq;
-    private static GetResultListener localOnShareListener;
+    private static CallBackListener localOnShareListener;
 
     private static boolean isAppInstalled(Context paramContext, String paramString) {
         List localList = paramContext.getPackageManager().getInstalledPackages(0);
@@ -32,7 +34,7 @@ public class WxShare {
         return localArrayList.contains(paramString);
     }
 
-    public static void sendReq(WeakReference<Activity> weakReference, GetResultListener onShareLitener, SendMessageToWX.Req req, final String appId, final String packageName) {
+    public static void sendReq(WeakReference<Activity> weakReference, CallBackListener onShareLitener, SendMessageToWX.Req req, final String appId, final String packageName) {
         LogUtil.e("sendReq----------");
 
         localOnShareListener = onShareLitener;
@@ -82,7 +84,7 @@ public class WxShare {
                             } catch (Exception localException) {
                                 LogUtil.e("22222");
                                 LogUtil.e(Log.getStackTraceString(localException));
-                                localOnShareListener.onError();
+                                localOnShareListener.onFailure();
 //
                             }
                         }
@@ -92,7 +94,7 @@ public class WxShare {
             } catch (Exception localException) {
 
                 LogUtil.e(Log.getStackTraceString(localException));
-                localOnShareListener.onError();
+                localOnShareListener.onFailure();
                 return;
             }
 //

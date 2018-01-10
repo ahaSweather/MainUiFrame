@@ -1,7 +1,6 @@
 package com.example.a51425.mainuiframe.ui.serivce;
 
 import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,12 +9,10 @@ import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.example.a51425.mainuiframe.IServiceAidlInterface;
-import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.utils.LogUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;

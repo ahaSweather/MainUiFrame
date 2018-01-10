@@ -1,22 +1,35 @@
 package com.example.a51425.mainuiframe.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.cyxk.wrframelibrary.base.BaseActivity;
+import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.base.BaseActivity;
-import com.example.a51425.mainuiframe.ui.serivce.JobHandlerService;
-import com.example.a51425.mainuiframe.ui.serivce.LocalService;
-import com.example.a51425.mainuiframe.ui.serivce.RemoteService;
-import com.example.a51425.mainuiframe.utils.LogUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by 51425 on 2017/6/15.
  */
 
 public class SplashActivity extends BaseActivity {
+
+    private Unbinder mBind;
+
+    @Override
+    protected void registerBind(Context context, View view) {
+        mBind = ButterKnife.bind(context, view);
+    }
+    @Override
+    protected void unRegister() {
+        mBind.unbind();
+    }
 
     @Override
     protected void beforeLoading() {
@@ -33,6 +46,8 @@ public class SplashActivity extends BaseActivity {
         setBaseTitleStatus(false);
     }
 
+
+
     @Override
     protected View getContentView() {
         View view = LayoutInflater.from(this).inflate(R.layout.activity_splash, null);
@@ -44,7 +59,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        super.initData();
         mUiHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -55,5 +69,15 @@ public class SplashActivity extends BaseActivity {
                 finish();
             }
         },0);
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initListener() {
+
     }
 }

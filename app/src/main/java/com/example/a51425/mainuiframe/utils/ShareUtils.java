@@ -7,12 +7,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.text.TextUtils;
 import android.util.Log;
 
+import com.cyxk.wrframelibrary.framework.CallBackListener;
+import com.cyxk.wrframelibrary.utils.AppUtils;
+import com.cyxk.wrframelibrary.utils.LogUtil;
+import com.cyxk.wrframelibrary.utils.ToastUtil;
 import com.example.a51425.mainuiframe.APP;
 import com.example.a51425.mainuiframe.constant.Constant;
-import com.example.a51425.mainuiframe.interfaces.GetResultListener;
 import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
@@ -204,7 +206,7 @@ public class ShareUtils {
      * @param type         分享方式 0 好友 1 朋友圈 2 收藏
      * @param shareBitmap  分享图片
      */
-    public static void shareWX(WeakReference<Activity> weakReference, String appId, String packageName, String shareTitle, String shareContent, String shareUrl, int type, Bitmap shareBitmap,GetResultListener onShareLitener) {
+    public static void shareWX(WeakReference<Activity> weakReference, String appId, String packageName, String shareTitle, String shareContent, String shareUrl, int type, Bitmap shareBitmap,CallBackListener onShareLitener) {
         LogUtil.e("shareWX_______");
         Bitmap localBitmap2 = Bitmap.createScaledBitmap(shareBitmap, 150, 150, true);
         if (shareBitmap!=null){
@@ -234,7 +236,7 @@ public class ShareUtils {
      * @param type
      * @param bitmap
      */
-    public static void shareWXReady(WeakReference<Activity> weakReference, String shareTitle, String share_word, String shareUrl, int type, Bitmap bitmap, GetResultListener onShareLitener) {
+    public static void shareWXReady(WeakReference<Activity> weakReference, String shareTitle, String share_word, String shareUrl, int type, Bitmap bitmap, CallBackListener onShareLitener) {
         try{
             if (AppUtils.checkApkExist(Constant.WEIXINAPPPACKAGEQQ)){
                 LogUtil.e("安装了QQ");
@@ -267,12 +269,12 @@ public class ShareUtils {
                         ,share_word,shareUrl,type,bitmap,onShareLitener);
             }else{
                 LogUtil.e("没有其他的");
-                onShareLitener.onError();
+                onShareLitener.onFailure();
                 return;
             }
         }catch (Exception e){
             LogUtil.e(Log.getStackTraceString(e));
-            onShareLitener.onError();
+            onShareLitener.onFailure();
         }
     }
 
@@ -442,7 +444,7 @@ public class ShareUtils {
 
 
 
-    public static void saveFile(final String shareUrl, final String imagePath, final GetResultListener<Uri> getResultListener) {
+    public static void saveFile(final String shareUrl, final String imagePath, final CallBackListener<Uri> getResultListener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -456,7 +458,7 @@ public class ShareUtils {
                     //成功保存图片后将文件传回去
                     getResultListener.onSuccess(Uri.fromFile(file));
                 } catch (Exception e) {
-                    getResultListener.onError();
+                    getResultListener.onFailure();
                     LogUtil.e(android.util.Log.getStackTraceString(e));
                 }
             }

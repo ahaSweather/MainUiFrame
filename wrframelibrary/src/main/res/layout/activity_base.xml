@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/base_title"
+        layout="@layout/fragment_title"></include>
+    
+    <FrameLayout
+        android:id="@+id/fr_base"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/base_title">
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/failView"
+        layout="@layout/commom_layout_loading_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/base_title"
+        android:visibility="gone" />
+    <include
+        android:id="@+id/emptyView"
+        layout="@layout/commom_layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/base_title"
+        android:visibility="gone"
+        ></include>
+
+    <include
+        android:id="@+id/base_loding"
+        layout="@layout/commom_layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/base_title"
+        ></include>
+
+</RelativeLayout>
