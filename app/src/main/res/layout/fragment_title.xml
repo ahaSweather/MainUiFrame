@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_45"
+    android:background="@color/colorPrimary"
+        >
+    <TextView
+        android:id="@+id/tv_basic_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="hello"
+        android:textSize="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/dp_30"
+        android:lines="1"
+        android:textColor="@color/white"
+        />
+    <ImageView
+        android:id="@+id/iv_base_back"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="match_parent"
+        android:src="@drawable/icon_goback"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        android:paddingRight="@dimen/dp_25"
+        android:paddingLeft="@dimen/dp_5"
+        />
+    <ImageView
+        android:id="@+id/iv_release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_20"
+        android:text="全部"
+        android:textColor="#fff"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"
+        android:clickable="true"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/tv_release"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_20"
+        android:text="全部"
+        android:textColor="#fff"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"
+        android:clickable="true"
+        android:visibility="gone"
+        android:gravity="center_vertical"
+        />
+
+
+</RelativeLayout>

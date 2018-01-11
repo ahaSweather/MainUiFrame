@@ -3,7 +3,14 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/ll_test_content_root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/dp_10"
+        >
+        <TextView
         android:id="@+id/tv_test_content"
         android:layout_width="@dimen/dp_110"
         android:layout_height="@dimen/dp_35"
@@ -11,6 +18,16 @@
         android:text="哈哈哈"
         android:textColor="@color/gray_82"
         android:gravity="center"
-        android:layout_marginBottom="@dimen/dp_10"
         />
+        <ImageView
+            android:id="@+id/iv_test_content"
+            android:layout_width="@dimen/dp_10"
+            android:layout_height="@dimen/dp_10"
+            android:layout_gravity="center_vertical"
+            android:src="@color/blue"
+            android:layout_marginLeft="@dimen/dp_5"
+            />
+
+    </LinearLayout>
+
 </LinearLayout>

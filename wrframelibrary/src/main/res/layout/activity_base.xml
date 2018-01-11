@@ -1,19 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical">
 
     <include
-        android:id="@+id/base_title"
-        layout="@layout/fragment_title"></include>
+        android:id="@+id/rl_base_title"
+        layout="@layout/activity_title"
+        android:visibility="visible"
+        ></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
     
     <FrameLayout
         android:id="@+id/fr_base"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_title">
+
+        >
 
     </FrameLayout>
 
@@ -22,23 +31,24 @@
         layout="@layout/commom_layout_loading_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_title"
         android:visibility="gone" />
     <include
         android:id="@+id/emptyView"
         layout="@layout/commom_layout_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/base_title"
         android:visibility="gone"
         ></include>
 
-    <include
-        android:id="@+id/base_loding"
-        layout="@layout/commom_layout_loading"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/base_title"
-        ></include>
 
-</RelativeLayout>
+    <ProgressBar
+        android:id="@+id/loadingView"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_centerInParent="true"
+        android:background="@drawable/loading_pb_bg"
+        android:indeterminateDrawable="@drawable/two_progress"
+        android:padding="@dimen/dp_25"
+        />
+    </RelativeLayout>
+</LinearLayout>

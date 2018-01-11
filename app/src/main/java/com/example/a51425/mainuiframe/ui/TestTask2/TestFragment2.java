@@ -1,13 +1,11 @@
-package com.example.a51425.mainuiframe.ui.TestTask;
+package com.example.a51425.mainuiframe.ui.TestTask2;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.cyxk.wrframelibrary.base.MyBaseFragment;
 import com.cyxk.wrframelibrary.utils.LogUtil;
 import com.cyxk.wrframelibrary.utils.NetWorkUtils;
@@ -29,34 +27,30 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class TestFragment extends MyBaseFragment implements TestContract.View  {
+public class TestFragment2 extends MyBaseFragment implements TestContract2.View  {
 
 
-    @BindView(R.id.shareFragmentRecyclerview)
-    public RecyclerView mRecyclerView;
+    @BindView(R.id.ll_test_root)
+    public LinearLayout mLlTestRoot;
 
     @BindView(R.id.tv_basic_title)
     TextView mTitle;
     @BindView(R.id.tv_release)
     TextView mComplete;
 
-
-    private LinearLayoutManager mLinearLayoutManager;
-
-
     private List<TestBean> mData = new ArrayList<>();
-    private int page ;
     private Unbinder mBind;
-    private TestAdapter mAdapter;
-    private TestFragmentPresenter mPresenter;
+    private TestFragmentPresenter2 mPresenter;
     private int mOldPosition = -1;
     private HashMap mAlreadyCheck = new HashMap<Integer,TestBean>();
     private boolean allowRefresh = true;
+    private int mCurrentPosition = 0;
+
 
     @Override //返回fragment需要的布局
     public View getContentView() {
-        View view = LayoutInflater.from(mActivity).inflate(R.layout.home_fragment, null);
-        mPresenter = new TestFragmentPresenter(this,new TestLogic());
+        View view = LayoutInflater.from(mActivity).inflate(R.layout.test_fragment2, null);
+        mPresenter = new TestFragmentPresenter2(this,new TestLogic2());
         return view;
     }
 
@@ -74,20 +68,16 @@ public class TestFragment extends MyBaseFragment implements TestContract.View  {
     @Override
     public void initView() {
         mTitle.setText("选择话题");
-//        mActivity.getRelease().setVisibility(View.VISIBLE);
-//        mActivity.getRelease().setText("发布");
         Utils.setVisibility1(mComplete);
         mComplete.setText("发布");
-
-        LogUtil.e(getClass().getName()+"_________initData");
-//        stateLayout.showContentView();
-        initRecyclerView();
         if (mOldPosition == -1){
             mComplete.setTextColor(getResources().getColor(R.color.gray_82));
         }else{
             //不知道你们用什么颜色
             mComplete.setTextColor(getResources().getColor(R.color.red_ff1851));
         }
+
+
     }
 
 
@@ -108,47 +98,6 @@ public class TestFragment extends MyBaseFragment implements TestContract.View  {
             }
         });
 
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
-                TestBean testBean = mData.get(position);
-                if (testBean.getItemType() == TestBean.Title){
-                    return;
-                }
-                allowRefresh = true;
-                for (int i = 0; i < mData.size(); i++) {
-                    TestBean testBean2 = mData.get(i);
-                    //如果选中一个条目
-                    if (i == position){
-                        boolean allowCheck = testBean2.isAllowCheck();
-                        //判断当前的条目是否已被选中
-                        if (allowCheck){
-                            //选中了再判断当前总共有几个已经选中的
-                            if (mAlreadyCheck.size() == 1){
-                                allowRefresh = false;
-                                ToastUtil.showToast(APP.getContext(),"当前只剩一个条目时不能取消");
-                                break;
-                            }else{
-                                //如果多余一个
-                                mAlreadyCheck.remove(position);
-                                testBean2.setAllowCheck(false);
-                                break;
-                            }
-                        }else{
-                            //如果当前条目没有被选中，直接添加
-                            testBean2.setAllowCheck(true);
-                            mAlreadyCheck.put(position,testBean2);
-                        }
-
-                    }
-                }
-                //如果只剩一个条目时再取消就不刷新
-                if (allowRefresh) mAdapter.notifyDataSetChanged();
-
-
-            }
-        });
 
     }
     @Override
@@ -163,15 +112,22 @@ public class TestFragment extends MyBaseFragment implements TestContract.View  {
     public void detailData(SpeciesBean bean) {
 
         showContentView();
+        View root = null;
         for (int i = 0; i < bean.getResult().size(); i++) {
             SpeciesBean.Result result = bean.getResult().get(i);
 //            LogUtil.e("title ---"+result.getTitle());
-            TestBean testBean = new TestBean(TestBean.Title);
+            final TestBean testBean = new TestBean(TestBean.Title);
             testBean.setId(result.getId());
             testBean.setPid(result.getPid());
             testBean.setShowTitle(result.getTitle());
             testBean.setChildrenList(result.getChildren());
             mData.add(testBean);
+            root = LayoutInflater.from(mActivity).inflate(R.layout.item_species, null);
+            TextView tvSpecies = (TextView) root.findViewById(R.id.tv_species);
+            tvSpecies.setText(testBean.getShowTitle());
+            LinearLayout mLlAddRoot = (LinearLayout) root.findViewById(R.id.ll_add_flowLayout);
+//            mLlAddRoot.removeAllViews();
+            FlowLayout flowLayout = new FlowLayout(mActivity);
             for (int j = 0; j < result.getChildren().size(); j++) {
                 SpeciesBean.Children children = result.getChildren().get(j);
 //                LogUtil.e("name ---"+children.getTitle());
@@ -181,40 +137,30 @@ public class TestFragment extends MyBaseFragment implements TestContract.View  {
                 testBean2.setPid(children.getPid());
                 testBean2.setShowTitle(children.getTitle());
                 testBean2.setChild_children_list(children.getChildren());
+                View inflate = LayoutInflater.from(mActivity).inflate(R.layout.item_child_spcies, null);
+                TextView tvChildSpecies = (TextView) inflate.findViewById(R.id.tv_test_content);
+                ImageView ivChildSpecies = (ImageView) inflate.findViewById(R.id.iv_test_content);
+                tvChildSpecies.setText(testBean2.getShowTitle());
+                flowLayout.addView(inflate);
                 mData.add(testBean2);
+                inflate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                    }
+                });
             }
+            mLlAddRoot.addView(flowLayout);
+
+            mLlTestRoot.addView(root);
         }
+
         LogUtil.e("mData.size ---"+mData.size());
-        mAdapter.setNewData(mData);
+
 
     }
 
-    /**
-     * 初始化主RecyclerView
-     */
-    private void initRecyclerView() {
-        GridLayoutManager layoutManage = new GridLayoutManager(getContext(), 3);
-        mRecyclerView.setLayoutManager(layoutManage);
-        mAdapter = new TestAdapter(mData,this);
-        mRecyclerView.setAdapter(mAdapter);
-        View bottom = LayoutInflater.from(mActivity).inflate(R.layout.item_test_bottom, null);
-        mAdapter.addFooterView(bottom);
-        layoutManage.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                if (position >= mAdapter.getData().size()){
-                    return 3;
-                }
-                int type = mAdapter.getData().get(position).getItemType();//获得返回值
-                //LogUtils.e("TAG","type:"+type);
-                if (type == TestBean.Title ) {
-                    return 3;//占三格
-                } else {
-                    return 1;
-                }
-            }
-        });
-    }
 
 
     @Override

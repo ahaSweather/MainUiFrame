@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 
 import com.cyxk.wrframelibrary.base.BaseActivity;
 import com.cyxk.wrframelibrary.utils.LogUtil;
+import com.cyxk.wrframelibrary.utils.StatusBarUtil;
 import com.cyxk.wrframelibrary.utils.ToastUtil;
 import com.example.a51425.mainuiframe.R;
+import com.example.a51425.mainuiframe.ui.TestTask2.TestFragment2;
 import com.example.a51425.mainuiframe.ui.adapter.MainAdapter;
 import com.example.a51425.mainuiframe.ui.TestTask.TestFragment;
 import com.example.a51425.mainuiframe.ui.ShareTask.ShareFragment;
@@ -72,7 +74,7 @@ public class MainActivity extends BaseActivity {
         //不加入侧滑
         showSlidr = false;
         hideStatusBar = false;
-
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
         return view;
     }
 
@@ -132,7 +134,8 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         fragments = new ArrayList<>();
         fragments.add(new ShareFragment());
-        fragments.add(new TestFragment());
+//        fragments.add(new TestFragment());
+        fragments.add(new TestFragment2());
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewpagerMain.setAdapter(adapter);
     }

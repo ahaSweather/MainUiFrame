@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -60,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ImageView baseBack;
     private boolean showBaseTitle = true;
     private RelativeLayout baseTitleView;
-    private RelativeLayout baseLoding;
+    private ProgressBar baseLoding;
     protected SharedPreferanceUtils sharedPreferanceUtils;
     private RelativeLayout failView;
     private RelativeLayout emptyView;
@@ -91,11 +92,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.setContentView(inflate);
         if (showBaseTitle) {
             mBaseFrame = (FrameLayout) inflate.findViewById(R.id.fr_base);
-            baseTitleView = (RelativeLayout) inflate.findViewById(R.id.base_title);
-            baseTitle = (TextView) inflate.findViewById(R.id.tv_base_title);
+//            baseTitleView = (RelativeLayout) inflate.findViewById(R.id.rl_base_title);
+            baseTitle = (TextView) inflate.findViewById(R.id.tv_basic_title);
             baseBack = (ImageView) inflate.findViewById(R.id.iv_base_back);
             imgRelease = (ImageView) inflate.findViewById(R.id.iv_release);
-            baseLoding = (RelativeLayout) inflate.findViewById(R.id.base_loding);
+//            baseLoding = (RelativeLayout) inflate.findViewById(R.id.rl_base_loading);
+            baseLoding = (ProgressBar) inflate.findViewById(R.id.loadingView);
+
             failView = (RelativeLayout) inflate.findViewById(R.id.failView);
             emptyView = (RelativeLayout) inflate.findViewById(R.id.emptyView);
             release = (TextView) inflate.findViewById(R.id.tv_release);

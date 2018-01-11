@@ -27,7 +27,7 @@ public class ShareFragment extends MyBaseFragment implements ShareContract.View 
 
 
 
-    @BindView(R.id.tv_base_title)
+    @BindView(R.id.tv_basic_title)
     TextView mTitle;
     private ShareFragmentPresenter mShareFragmentPresenter;
     private String shareTitle = "有问题吗？真的有问题吗？";

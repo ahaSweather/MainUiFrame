@@ -2,6 +2,7 @@ package com.example.a51425.mainuiframe.ui.TestTask;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.cyxk.wrframelibrary.utils.Utils;
 import com.example.a51425.mainuiframe.R;
 import com.example.a51425.mainuiframe.bean.TestBean;
+import com.example.a51425.mainuiframe.ui.view.FlowLayout;
 
 import java.util.List;
 
@@ -42,18 +44,26 @@ class TestAdapter extends BaseMultiItemQuickAdapter<TestBean,BaseViewHolder> {
                 break;
 
             case TestBean.Content:
+                LinearLayout root = helper.getView(R.id.ll_test_content_root);
 
-                TextView mView = helper.getView(R.id.tv_test_content);
-                mView.setText(item.getShowTitle());
-                if (item.isAllowCheck()){
-                    Utils.setBackGroundDrawable(mView,R.drawable.bg_tv_test_checked);
-                    mView.setTextColor(this.mContext.getResources().getColor(R.color.blue));
-                    fragment.mComplete.setTextColor(mContext.getResources().getColor(R.color.red_ff1851));
-                }else{
-                    Utils.setBackGroundDrawable(mView,R.drawable.bg_tv_test_unchecked);
-                    mView.setTextColor(this.mContext.getResources().getColor(R.color.black3f));
-//                    fragment.mComplete.setTextColor(mContext.getResources().getColor(R.color.gray_82));
-                }
+
+
+//                TextView mView = helper.getView(R.id.tv_test_content);
+//                mView.setText(item.getShowTitle());
+//                if (item.isAllowCheck()){
+//                    Utils.setBackGroundDrawable(mView,R.drawable.bg_tv_test_checked);
+//                    mView.setTextColor(this.mContext.getResources().getColor(R.color.blue));
+//                    fragment.mComplete.setTextColor(mContext.getResources().getColor(R.color.red_ff1851));
+//                }else{
+//                    Utils.setBackGroundDrawable(mView,R.drawable.bg_tv_test_unchecked);
+//                    mView.setTextColor(this.mContext.getResources().getColor(R.color.black3f));
+////                    fragment.mComplete.setTextColor(mContext.getResources().getColor(R.color.gray_82));
+//                }
+
+
+
+
+
 
                 break;
 
