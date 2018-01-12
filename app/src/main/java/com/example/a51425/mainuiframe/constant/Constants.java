@@ -8,4 +8,5 @@ public class Constants {
 
 	public static String NET_ERROR_DESC = "当前网络异常请稍后再试";
 
+	public static String net_text = "test";
 }

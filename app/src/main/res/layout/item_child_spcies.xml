@@ -5,12 +5,12 @@
     android:layout_marginBottom="@dimen/dp_10"
     android:paddingLeft="@dimen/dp_5"
     android:paddingRight="@dimen/dp_5"
+    android:background="@drawable/bg_tv_test_unchecked"
     >
         <TextView
             android:id="@+id/tv_test_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_tv_test_unchecked"
             android:text="哈哈哈"
             android:padding="@dimen/dp_10"
             android:textColor="@color/gray_82"
@@ -21,7 +21,7 @@
             android:layout_width="@dimen/dp_10"
             android:layout_height="@dimen/dp_10"
             android:layout_gravity="center_vertical"
-            android:src="@color/blue"
+            android:background="@color/red_ff1851"
             android:layout_marginLeft="@dimen/dp_5"
             />
 </LinearLayout>

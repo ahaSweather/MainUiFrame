@@ -27,12 +27,18 @@ public class TestBean implements MultiItemEntity, Serializable{
     private String id;
     private String pid;
     private String showTitle;
+    private int position;
 
     private List<String> child_children_list;
     private List<SpeciesBean.Children> childrenList;
 
+    public int getPosition() {
+        return position;
+    }
 
-
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public boolean isAllowCheck() {
         return allowCheck;
