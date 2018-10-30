@@ -1,44 +1,38 @@
 package com.cyxk.wrframelibrary.base;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.cyxk.wrframelibrary.config.ConfigUtil;
-import com.cyxk.wrframelibrary.utils.LogUtil;
-import com.cyxk.wrframelibrary.utils.SharedPreferanceUtils;
+import com.cyxk.wrframelibrary.base.rxbase.RxManager;
 import com.cyxk.wrframelibrary.view.StateLayout;
 
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 
 
 /**
  * BaseFragment
  */
-public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> extends Fragment {
-
+public abstract class MyBaseFragment<T extends ViewDataBinding> extends Fragment implements IContext {
+    protected String mTAG = getClass().getSimpleName();
     public BaseActivity mActivity;
     protected StateLayout stateLayout;
     protected boolean isFirst = true;
     protected boolean isPrepared;
-
-    private boolean isShow;
-    public Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            dealMessage(msg);
-        }
-    };
-    private boolean mShareClick = true;
-    public SharedPreferanceUtils mSharedPreferanceUtils;
+    protected BasePresenter mPresenter;
+    // 布局view
+    protected T bindingView;
+    private boolean mFragmentDestroyed = true;
+    private RxManager mRxManager;
+    private Handler mFragmentHandler;
 
 
     //获得可靠的上下文
@@ -48,24 +42,29 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
         mActivity = (BaseActivity) activity;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFragmentHandler = new FragmentHandler(this);
+    }
+
     public BaseActivity getmActivity() {
         return mActivity;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mSharedPreferanceUtils = SharedPreferanceUtils.getSp();
+        mFragmentDestroyed = false;
         //防止Fragment重复加载
         if (stateLayout == null) {
             // 说明这个Fragemnt的onCreateView方法是第一次执行
-            View view = getContentView();
-            registerBind(this, view);
+            bindingView = DataBindingUtil.inflate(getActivity().getLayoutInflater(), getLayoutId(), null, false);
             //对Fragment展示的布局进一步封装
-            stateLayout = StateLayout.newInstance(mActivity, view);
+            stateLayout = StateLayout.newInstance(mActivity, bindingView.getRoot());
+            mRxManager = new RxManager();
+            initPresenter();
             initView();
             initListener();
-            //
-            isPrepared = true;
         } else {
             ViewGroup parent = (ViewGroup) stateLayout.getParent();
             if (parent != null) {
@@ -75,8 +74,7 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
         return stateLayout;
     }
 
-    protected abstract void registerBind(MyBaseFragment<V, M> vmMyBaseFragment, View view);
-
+    protected abstract void initPresenter();
 
     /**
      * Fragment当前状态是否可见
@@ -86,10 +84,8 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-
         if (isVisibleToUser) {
             isVisible = true;
-//            LogUtil.e(getClass().getName()+"__________setUserVisibleHint");
             onVisible();
         } else {
             isVisible = false;
@@ -98,10 +94,28 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        isPrepared = true;
+        loadData();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
-        LogUtil.e(getClass().getName()+"__________onResume");
-        onVisible();
+    }
+
+    @Override
+    public boolean isAlive() {
+        return isFragmentAlive();
+    }
+
+    public boolean isFragmentAlive() {
+        return !isFragmentDestroyed();
+    }
+
+    public boolean isFragmentDestroyed() {
+        return mFragmentDestroyed;
     }
 
     /**
@@ -112,23 +126,21 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
 //        LogUtil.e("isFirst _____________" + isFirst);
 //        LogUtil.e("isVisible _____________" + isVisible);
 //        LogUtil.e("isPrepared _____________" + isPrepared);
+        onVisibleLoad();
         if (!isFirst || !isVisible || !isPrepared) {
             return;
         }
-        LogUtil.e(getClass().getName()+"开始了加载数据");
-        initData();
-        isFirst = false;
+        loadData();
     }
 
+    protected void onVisibleLoad() {
+    }
 
     /**
      * 不可见
      */
     protected void onInvisible() {
-
-
     }
-
 
     /**
      * 查找View，增加这个方法是为了略强转
@@ -142,59 +154,32 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
         return view;
     }
 
-    public boolean clickLimit() {
-
-
-
-        if (!mShareClick) {
-            LogUtil.e("防止多次点击");
-            return true;
-        }
-        mShareClick = false;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mShareClick = true;
-            }
-        }, ConfigUtil.CLICK_MIDDLE_TIME);
-        return false;
-    }
-
-    /**
-     * 判断是否强制跳到登陆界面
-     * @return
-     */
-    public boolean haneToLoginActivity(){
-        if (TextUtils.isEmpty(mSharedPreferanceUtils.getString(ConfigUtil.TOKEN,""))){
-
-            return true;
-        }
-        return false;
-    }
-
-
     @Override
     public void onDestroy() {
+        destory();
         super.onDestroy();
-        if (handler != null){
-            handler.removeCallbacksAndMessages(null);
-        }
-        unRegister();
-
     }
 
-    protected abstract void unRegister();
+    private void destory() {
+        mFragmentDestroyed = true;
+        if (mPresenter != null)
+            mPresenter.unsubscribe();
+        if (mRxManager != null)
+            mRxManager.clear();
+        if (getHandler() != null)
+            getHandler().removeCallbacksAndMessages(null);
+        unRegister();
+    }
 
-    protected void dealMessage(Message msg) {
-
+    private void unRegister() {
     }
 
     /**
      * 返回Fragment自己的名称
      */
-    protected  CharSequence getTitle(){
+    protected CharSequence getTitle() {
         return getClass().getName();
-    };
+    }
 
     /**
      * 初始化View相关的代码写在这个方法中
@@ -209,21 +194,46 @@ public abstract class MyBaseFragment<V extends BaseView,M extends BaseModel> ext
     /**
      * 初始化数据的代码写在这个方法中，这个方法才是加载数据的方法，onVisible 内做了判断，保证 initData() 方法只执行了一次
      */
-    public abstract void initData();
+    public abstract void loadData();
 
     /**
-     * 返回正常的界面想要展示的View或View的Id
+     * 返回正常的界面想要展示的View的Id
      */
-    public abstract View getContentView();
+    public abstract int getLayoutId();
 
 
-    public  void getData(ArrayList data){};
-
-    public boolean isMainThread() {
-        return Looper.getMainLooper() == Looper.myLooper();
+    /**
+     * 获取handler
+     */
+    protected Handler getHandler() {
+        return mFragmentHandler;
     }
 
+    protected void handleMessage(Message msg) {
+    }
 
+    protected static class FragmentHandler extends Handler {
 
+        private WeakReference<MyBaseFragment> mFragmentWeakReference;
 
+        FragmentHandler(MyBaseFragment fragment) {
+            mFragmentWeakReference = new WeakReference<>(fragment);
+        }
+
+        @Override
+        public void dispatchMessage(Message msg) {
+            MyBaseFragment fragment = mFragmentWeakReference.get();
+            if (fragment != null && fragment.isFragmentAlive()) {
+                super.dispatchMessage(msg);
+            }
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            MyBaseFragment fragment = mFragmentWeakReference.get();
+            if (fragment != null && fragment.isFragmentAlive()) {
+                fragment.handleMessage(msg);
+            }
+        }
+    }
 }

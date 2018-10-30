@@ -1,6 +1,5 @@
 package com.example.a51425.mainuiframe.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -8,74 +7,53 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
 import com.cyxk.wrframelibrary.base.BaseActivity;
 import com.cyxk.wrframelibrary.utils.LogUtil;
-import com.cyxk.wrframelibrary.utils.StatusBarUtil;
 import com.cyxk.wrframelibrary.utils.ToastUtil;
+import com.cyxk.wrframelibrary.view.ViewPagerMain;
 import com.example.a51425.mainuiframe.R;
-import com.example.a51425.mainuiframe.ui.TestTask2.TestFragment2;
-import com.example.a51425.mainuiframe.ui.adapter.MainAdapter;
-import com.example.a51425.mainuiframe.ui.TestTask.TestFragment;
 import com.example.a51425.mainuiframe.ui.ShareTask.ShareFragment;
+import com.example.a51425.mainuiframe.ui.adapter.MainAdapter;
 import com.example.a51425.mainuiframe.ui.serivce.JobHandlerService;
 import com.example.a51425.mainuiframe.ui.serivce.LocalService;
 import com.example.a51425.mainuiframe.ui.serivce.RemoteService;
-import com.cyxk.wrframelibrary.view.ViewPagerMain;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class MainActivity extends BaseActivity {
 
-
-//    @BindView(R.id.viewpager_main)
     ViewPagerMain mViewpagerMain;
-//    @BindView(R.id.main_bottom_root)
     LinearLayout mMainBottomRoot;
     private List<Fragment> fragments;
     private long mExitTime = 0L;
-    private Unbinder mBind;
-
 
     @Override
-    protected void registerBind(Context context, View view) {
-        mBind = ButterKnife.bind(context, view);
+    protected boolean isSetSwipeBack() {
+        return false;
     }
 
     @Override
     protected void beforeLoading() {
         super.beforeLoading();
-        try{
+        try {
             getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        }catch (Exception e){
+        } catch (Exception e) {
             LogUtil.e(Log.getStackTraceString(e));
         }
-        setBaseTitleStatus(false);
     }
 
     @Override
     protected void unRegister() {
-        if (mBind!= null){
-            mBind.unbind();
-        }
+
     }
 
     @Override
-    protected View getContentView() {
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_main, null);
-        //不加入侧滑
-        showSlidr = false;
-        hideStatusBar = false;
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), 0);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -83,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
         startService(new Intent(this, LocalService.class));
         startService(new Intent(this, RemoteService.class));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             startService(new Intent(this, JobHandlerService.class));
         }
 
@@ -119,13 +97,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
-
         initViewPager();
         //刚进来默认展示第1页的数据
-        mViewpagerMain.setCurrentItem(0,false);
+        mViewpagerMain.setCurrentItem(0, false);
         changeUI(0);
-        LogUtil.e(getClass().getName()+"_________initData");
+        LogUtil.e(getClass().getName() + "_________initData");
     }
 
     /**
@@ -134,12 +110,9 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         fragments = new ArrayList<>();
         fragments.add(new ShareFragment());
-//        fragments.add(new TestFragment());
-        fragments.add(new TestFragment2());
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager(), fragments);
         mViewpagerMain.setAdapter(adapter);
     }
-
 
     /**
      * 监听底部按钮的切换状态，mMainBottomRoot为底部按钮的根布局，这样封装的话如果底部按钮的数量有变动
@@ -147,7 +120,7 @@ public class MainActivity extends BaseActivity {
      */
     private void setBottomListener() {
         int childCount = mMainBottomRoot.getChildCount();
-        for (int i = 0; i <childCount ; i++) {
+        for (int i = 0; i < childCount; i++) {
             //获得子布局,为每个子view设置点击事件
             LinearLayout child = (LinearLayout) mMainBottomRoot.getChildAt(i);
             child.setOnClickListener(new View.OnClickListener() {
@@ -165,41 +138,39 @@ public class MainActivity extends BaseActivity {
     }
 
     /**
-     *  当viewPager切换的时候更改底部按钮的UI状态
+     * 当viewPager切换的时候更改底部按钮的UI状态
+     *
      * @param position
      */
     private void changeUI(int position) {
-        for (int i = 0; i <mMainBottomRoot.getChildCount() ; i++) {
-            if (i==position){
-                setEnable(mMainBottomRoot.getChildAt(i),false);
-            }else{
-                setEnable(mMainBottomRoot.getChildAt(i),true);
+        for (int i = 0; i < mMainBottomRoot.getChildCount(); i++) {
+            if (i == position) {
+                setEnable(mMainBottomRoot.getChildAt(i), false);
+            } else {
+                setEnable(mMainBottomRoot.getChildAt(i), true);
             }
-
-
         }
     }
 
     /**
      * 更改底部按钮UI状态,如果是view直接setEnable，如果是viewGroup递归遍历其中的view setEnable
+     *
      * @param childAt
      * @param b
      */
     private void setEnable(View childAt, boolean b) {
 
         childAt.setEnabled(b);
-        if (childAt instanceof ViewGroup){
+        if (childAt instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) childAt).getChildCount(); i++) {
-                setEnable(((ViewGroup) childAt).getChildAt(i),b);
+                setEnable(((ViewGroup) childAt).getChildAt(i), b);
             }
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
             if (System.currentTimeMillis() - mExitTime < 2000) {
                 moveTaskToBack(true);
                 return true;
@@ -210,6 +181,5 @@ public class MainActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
 
 }

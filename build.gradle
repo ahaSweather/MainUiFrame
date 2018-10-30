@@ -2,12 +2,12 @@
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'//GreenDao
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -15,6 +15,7 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
         maven { url "https://jitpack.io" }
     }
@@ -22,4 +23,28 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    // Sdk and tools
+    minSdkVersion = 19
+    targetSdkVersion = 22
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
+
+    // App dependencies
+    supportLibraryVersion = '27.1.1'
+    junitVersion = '4.12'
+    roomVersion = "1.0.0"
+
+    //RxJava
+    rxjavaVersion = '2.1.8'
+    rxandroidVersion = '2.0.1'
+    //Retrofit
+    retrofitVersion = '2.3.0'
+    //Glide
+    glideVersion = '4.5.0'
+    //adapter
+    adapter = '2.9.30'
+
 }

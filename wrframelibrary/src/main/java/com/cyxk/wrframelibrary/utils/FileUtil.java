@@ -18,11 +18,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
 
 /**
  * File
@@ -183,84 +179,6 @@ public class FileUtil {
 
         return newFile.getAbsolutePath();
     }
-
-    public static void download(final String _url, final String path, final CallBackListener<String> callBackListener) throws Exception {
-
-        Observable.just(_url)
-                .map(new Func1<String, String>() {
-                    @Override
-                    public String call(String _url) {
-                        InputStream is = null;
-                        OutputStream os = null;
-                        try {
-                            URL url = new URL(_url);
-                            // 打开连接
-                            URLConnection con = url.openConnection();
-                            //设置请求超时为5s
-                            con.setConnectTimeout(5 * 1000);
-                            // 输入流
-                            is = con.getInputStream();
-
-                            // 1K的数据缓冲
-                            byte[] bs = new byte[1024];
-                            // 读取到的数据长度
-                            int len;
-                            // 输出的文件流
-                            File sf = new File(path);
-
-                            os = new FileOutputStream(sf);
-                            // 开始读取
-                            while ((len = is.read(bs)) != -1) {
-                                os.write(bs, 0, len);
-                            }
-                            // 完毕，关闭所有链接
-
-                            return sf.getAbsolutePath();
-                        } catch (Exception e) {
-                            LogUtil.e(Log.getStackTraceString(e));
-                            callBackListener.onFailure();
-                            return null;
-                        } finally {
-                            try {
-                                os.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            try {
-                                is.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<String>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        LogUtil.e(Log.getStackTraceString(e));
-                        callBackListener.onFailure();
-                    }
-
-                    @Override
-                    public void onNext(String path) {
-                        if (!TextUtils.isEmpty(path)) {
-                            callBackListener.onSuccess(path);
-                        }
-
-                    }
-                });
-    }
-
-
-
 
     /**
      * 将byte字节转换为十六进制字符串
